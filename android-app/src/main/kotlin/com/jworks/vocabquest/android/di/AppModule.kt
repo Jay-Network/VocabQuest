@@ -6,11 +6,13 @@ import com.jworks.vocabquest.core.data.DatabaseDriverFactory
 import com.jworks.vocabquest.core.data.JCoinRepositoryImpl
 import com.jworks.vocabquest.core.data.SessionRepositoryImpl
 import com.jworks.vocabquest.core.data.SrsRepositoryImpl
+import com.jworks.vocabquest.core.data.SubscriptionRepositoryImpl
 import com.jworks.vocabquest.core.data.UserRepositoryImpl
 import com.jworks.vocabquest.core.data.VocabRepositoryImpl
 import com.jworks.vocabquest.core.domain.repository.JCoinRepository
 import com.jworks.vocabquest.core.domain.repository.SessionRepository
 import com.jworks.vocabquest.core.domain.repository.SrsRepository
+import com.jworks.vocabquest.core.domain.repository.SubscriptionRepository
 import com.jworks.vocabquest.core.domain.repository.UserRepository
 import com.jworks.vocabquest.core.domain.repository.VocabRepository
 import com.jworks.vocabquest.core.domain.usecase.CompleteSessionUseCase
@@ -63,6 +65,12 @@ object AppModule {
     @Singleton
     fun provideSrsRepository(driver: SqlDriver): SrsRepository {
         return SrsRepositoryImpl(driver)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSubscriptionRepository(driver: SqlDriver): SubscriptionRepository {
+        return SubscriptionRepositoryImpl(driver)
     }
 
     @Provides

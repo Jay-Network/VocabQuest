@@ -76,6 +76,33 @@ fun ShopScreen(
                 state.isLoading -> {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
+                !state.coinsEnabled -> {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(32.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = "Premium Feature",
+                            style = MaterialTheme.typography.headlineMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = "J Coin earning and shop purchases require a Premium subscription.",
+                            style = MaterialTheme.typography.bodyLarge,
+                            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Spacer(modifier = Modifier.height(24.dp))
+                        Button(onClick = onBack) {
+                            Text("Go Back")
+                        }
+                    }
+                }
                 state.catalog.isEmpty() -> {
                     Text(
                         text = "Shop is empty. Check back later!",

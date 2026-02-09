@@ -9,6 +9,7 @@ import com.jworks.vocabquest.android.ui.game.quiz.QuizScreen
 import com.jworks.vocabquest.android.ui.home.HomeScreen
 import com.jworks.vocabquest.android.ui.progress.ProgressScreen
 import com.jworks.vocabquest.android.ui.shop.ShopScreen
+import com.jworks.vocabquest.android.ui.subscription.SubscriptionScreen
 
 @Composable
 fun VocabQuestNavHost() {
@@ -23,7 +24,8 @@ fun VocabQuestNavHost() {
                 onQuizClick = { navController.navigate(NavRoute.Quiz.route) },
                 onFlashcardClick = { navController.navigate(NavRoute.Flashcard.route) },
                 onShopClick = { navController.navigate(NavRoute.Shop.route) },
-                onProgressClick = { navController.navigate(NavRoute.Progress.route) }
+                onProgressClick = { navController.navigate(NavRoute.Progress.route) },
+                onSubscriptionClick = { navController.navigate(NavRoute.Subscription.route) }
             )
         }
 
@@ -38,6 +40,9 @@ fun VocabQuestNavHost() {
         }
         composable(NavRoute.Progress.route) {
             ProgressScreen(onBack = { navController.popBackStack() })
+        }
+        composable(NavRoute.Subscription.route) {
+            SubscriptionScreen(onBack = { navController.popBackStack() })
         }
     }
 }

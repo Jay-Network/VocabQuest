@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.jworks.vocabquest.core.domain.model.GameMode
 import com.jworks.vocabquest.core.domain.model.Word
 import com.jworks.vocabquest.core.domain.repository.SrsRepository
+import com.jworks.vocabquest.core.domain.repository.SubscriptionRepository
 import com.jworks.vocabquest.core.domain.repository.VocabRepository
 import com.jworks.vocabquest.core.domain.usecase.CompleteSessionUseCase
 import com.jworks.vocabquest.core.engine.SessionStats
@@ -34,7 +35,8 @@ data class QuizUiState(
     val streak: Int = 0,
     val xpEarned: Int = 0,
     val isFinished: Boolean = false,
-    val isLoading: Boolean = true
+    val isLoading: Boolean = true,
+    val isLocked: Boolean = false
 )
 
 @HiltViewModel
@@ -43,7 +45,8 @@ class QuizViewModel @Inject constructor(
     private val srsRepository: SrsRepository,
     private val srsAlgorithm: SrsAlgorithm,
     private val scoringEngine: ScoringEngine,
-    private val completeSessionUseCase: CompleteSessionUseCase
+    private val completeSessionUseCase: CompleteSessionUseCase,
+    private val subscriptionRepository: SubscriptionRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(QuizUiState())
@@ -54,7 +57,18 @@ class QuizViewModel @Inject constructor(
     private var comboStreak = 0
 
     init {
-        generateQuiz()
+        checkAccessAndLoad()
+    }
+
+    private fun checkAccessAndLoad() {
+        viewModelScope.launch {
+            val tier = subscriptionRepository.getCurrentTier()
+            if (GameMode.RECOGNITION !in tier.gameModes) {
+                _uiState.value = QuizUiState(isLocked = true, isLoading = false)
+                return@launch
+            }
+            generateQuiz()
+        }
     }
 
     private fun generateQuiz() {

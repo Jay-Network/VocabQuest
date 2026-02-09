@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -40,6 +42,7 @@ fun HomeScreen(
     onFlashcardClick: () -> Unit,
     onShopClick: () -> Unit,
     onProgressClick: () -> Unit,
+    onSubscriptionClick: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
@@ -89,6 +92,49 @@ fun HomeScreen(
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))
+
+                // Upgrade banner for free users
+                if (!state.isPremium) {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable(onClick = onSubscriptionClick),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                        )
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = "Free Plan",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    color = MaterialTheme.colorScheme.onTertiaryContainer
+                                )
+                                Text(
+                                    text = "Unlock 10,000 words, quiz mode & more",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.7f)
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Button(
+                                onClick = onSubscriptionClick,
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.primary
+                                )
+                            ) {
+                                Text("Upgrade")
+                            }
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
 
                 // Word of the Day
                 state.wordOfTheDay?.let { word ->

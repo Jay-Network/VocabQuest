@@ -8,6 +8,7 @@ import com.jworks.vocabquest.core.domain.model.PurchaseResult
 import com.jworks.vocabquest.core.domain.model.ShopCategory
 import com.jworks.vocabquest.core.domain.model.ShopItem
 import com.jworks.vocabquest.core.domain.repository.JCoinRepository
+import com.jworks.vocabquest.core.domain.repository.SubscriptionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +21,8 @@ data class ShopUiState(
     val catalog: List<ShopItem> = emptyList(),
     val selectedCategory: ShopCategory? = null,
     val purchaseMessage: String? = null,
-    val isLoading: Boolean = true
+    val isLoading: Boolean = true,
+    val coinsEnabled: Boolean = true
 ) {
     val categories: List<ShopCategory>
         get() = catalog.map { it.category }.distinct()
@@ -32,7 +34,8 @@ data class ShopUiState(
 
 @HiltViewModel
 class ShopViewModel @Inject constructor(
-    private val jCoinRepository: JCoinRepository
+    private val jCoinRepository: JCoinRepository,
+    private val subscriptionRepository: SubscriptionRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ShopUiState())
@@ -45,9 +48,11 @@ class ShopViewModel @Inject constructor(
 
     private fun loadShop() {
         viewModelScope.launch {
+            val tier = subscriptionRepository.getCurrentTier()
             val catalog = jCoinRepository.getShopCatalog()
             _uiState.value = _uiState.value.copy(
                 catalog = catalog,
+                coinsEnabled = tier.coinsEnabled,
                 isLoading = false
             )
         }

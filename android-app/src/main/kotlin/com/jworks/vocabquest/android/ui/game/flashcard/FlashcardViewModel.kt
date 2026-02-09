@@ -6,6 +6,7 @@ import com.jworks.vocabquest.core.domain.model.GameMode
 import com.jworks.vocabquest.core.domain.model.SrsCard
 import com.jworks.vocabquest.core.domain.model.Word
 import com.jworks.vocabquest.core.domain.repository.SrsRepository
+import com.jworks.vocabquest.core.domain.repository.SubscriptionRepository
 import com.jworks.vocabquest.core.domain.repository.VocabRepository
 import com.jworks.vocabquest.core.domain.usecase.CompleteSessionUseCase
 import com.jworks.vocabquest.core.engine.SessionStats
@@ -37,7 +38,8 @@ class FlashcardViewModel @Inject constructor(
     private val srsRepository: SrsRepository,
     private val srsAlgorithm: SrsAlgorithm,
     private val scoringEngine: ScoringEngine,
-    private val completeSessionUseCase: CompleteSessionUseCase
+    private val completeSessionUseCase: CompleteSessionUseCase,
+    private val subscriptionRepository: SubscriptionRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(FlashcardUiState())
@@ -56,14 +58,16 @@ class FlashcardViewModel @Inject constructor(
         viewModelScope.launch {
             sessionStartTime = Clock.System.now().epochSeconds
             val now = Clock.System.now().epochSeconds
+            val tier = subscriptionRepository.getCurrentTier()
+            val maxCards = minOf(20, tier.maxReviewsPerDay)
 
             // Get cards due for review
-            val dueCards = srsRepository.getCardsForReview(now, 15)
+            val dueCards = srsRepository.getCardsForReview(now, minOf(15, maxCards))
             val dueWordIds = dueCards.map { it.wordId }
             val dueWords = vocabRepository.getWordsByIds(dueWordIds)
 
             // Get new cards if we need more
-            val remaining = 20 - dueCards.size
+            val remaining = maxCards - dueCards.size
             val newWordIds = if (remaining > 0) srsRepository.getNewCards(remaining) else emptyList()
             val newWords = vocabRepository.getWordsByIds(newWordIds)
 

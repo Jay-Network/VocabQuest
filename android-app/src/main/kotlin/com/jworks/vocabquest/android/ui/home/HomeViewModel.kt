@@ -6,6 +6,7 @@ import com.jworks.vocabquest.core.domain.model.CoinBalance
 import com.jworks.vocabquest.core.domain.model.LOCAL_USER_ID
 import com.jworks.vocabquest.core.domain.model.Word
 import com.jworks.vocabquest.core.domain.repository.JCoinRepository
+import com.jworks.vocabquest.core.domain.repository.SubscriptionRepository
 import com.jworks.vocabquest.core.domain.repository.VocabRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,13 +24,15 @@ data class HomeUiState(
     val totalXp: Int = 0,
     val levelProgress: Float = 0f,
     val wordsByLevel: Map<String, Int> = emptyMap(),
-    val isLoading: Boolean = true
+    val isLoading: Boolean = true,
+    val isPremium: Boolean = false
 )
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val vocabRepository: VocabRepository,
-    private val jCoinRepository: JCoinRepository
+    private val jCoinRepository: JCoinRepository,
+    private val subscriptionRepository: SubscriptionRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -44,6 +47,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             val totalWords = vocabRepository.getTotalWordCount()
             val wordOfDay = vocabRepository.getRandomWords(1).firstOrNull()
+            val isPremium = subscriptionRepository.isPremium()
 
             val levels = listOf("A1", "A2", "B1", "B2", "C1", "C2")
             val wordsByLevel = levels.associateWith { vocabRepository.getWordCountByLevel(it) }
@@ -52,6 +56,7 @@ class HomeViewModel @Inject constructor(
                 totalWords = totalWords,
                 wordOfTheDay = wordOfDay,
                 wordsByLevel = wordsByLevel,
+                isPremium = isPremium,
                 isLoading = false
             )
         }
