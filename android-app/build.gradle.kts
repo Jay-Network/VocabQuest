@@ -54,6 +54,8 @@ android {
             storePassword = localProperties.getProperty("RELEASE_STORE_PASSWORD", "")
             keyAlias = localProperties.getProperty("RELEASE_KEY_ALIAS", "vocabquest")
             keyPassword = localProperties.getProperty("RELEASE_KEY_PASSWORD", "")
+            enableV1Signing = true
+            enableV2Signing = true
         }
     }
 
