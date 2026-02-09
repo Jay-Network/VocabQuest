@@ -1,6 +1,7 @@
 package com.jworks.vocabquest.android.di
 
 import android.content.Context
+import app.cash.sqldelight.db.SqlDriver
 import com.jworks.vocabquest.core.data.DatabaseDriverFactory
 import com.jworks.vocabquest.core.data.JCoinRepositoryImpl
 import com.jworks.vocabquest.core.data.SessionRepositoryImpl
@@ -30,33 +31,38 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext context: Context): VocabQuestDatabase {
-        val driver = DatabaseDriverFactory(context).createDriver()
+    fun provideSqlDriver(@ApplicationContext context: Context): SqlDriver {
+        return DatabaseDriverFactory(context).createDriver()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDatabase(driver: SqlDriver): VocabQuestDatabase {
         return VocabQuestDatabase(driver)
     }
 
     @Provides
     @Singleton
-    fun provideVocabRepository(db: VocabQuestDatabase): VocabRepository {
-        return VocabRepositoryImpl(db)
+    fun provideVocabRepository(driver: SqlDriver): VocabRepository {
+        return VocabRepositoryImpl(driver)
     }
 
     @Provides
     @Singleton
-    fun provideUserRepository(db: VocabQuestDatabase): UserRepository {
-        return UserRepositoryImpl(db)
+    fun provideUserRepository(driver: SqlDriver): UserRepository {
+        return UserRepositoryImpl(driver)
     }
 
     @Provides
     @Singleton
-    fun provideSessionRepository(db: VocabQuestDatabase): SessionRepository {
-        return SessionRepositoryImpl(db)
+    fun provideSessionRepository(driver: SqlDriver): SessionRepository {
+        return SessionRepositoryImpl(driver)
     }
 
     @Provides
     @Singleton
-    fun provideSrsRepository(db: VocabQuestDatabase): SrsRepository {
-        return SrsRepositoryImpl(db)
+    fun provideSrsRepository(driver: SqlDriver): SrsRepository {
+        return SrsRepositoryImpl(driver)
     }
 
     @Provides

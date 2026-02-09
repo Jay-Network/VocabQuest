@@ -1,17 +1,16 @@
 package com.jworks.vocabquest.core.data
 
+import app.cash.sqldelight.db.QueryResult
+import app.cash.sqldelight.db.SqlDriver
 import com.jworks.vocabquest.core.domain.model.DailyStatsData
 import com.jworks.vocabquest.core.domain.model.StudySession
 import com.jworks.vocabquest.core.domain.repository.SessionRepository
-import com.jworks.vocabquest.db.VocabQuestDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class SessionRepositoryImpl(
-    private val database: VocabQuestDatabase
+    private val driver: SqlDriver
 ) : SessionRepository {
-
-    private val driver get() = database.driver
 
     override suspend fun recordSession(session: StudySession): Long = withContext(Dispatchers.Default) {
         driver.execute(
@@ -27,20 +26,19 @@ class SessionRepositoryImpl(
             bindLong(5, session.durationSec.toLong())
         }
 
-        val cursor = driver.executeQuery(
+        driver.executeQuery(
             identifier = null,
             sql = "SELECT last_insert_rowid()",
             mapper = { cursor ->
                 cursor.next()
-                cursor.getLong(0)!!
+                QueryResult.Value(cursor.getLong(0)!!)
             },
             parameters = 0
-        )
-        cursor.value
+        ).value
     }
 
     override suspend fun getRecentSessions(limit: Int): List<StudySession> = withContext(Dispatchers.Default) {
-        val cursor = driver.executeQuery(
+        driver.executeQuery(
             identifier = null,
             sql = "SELECT id, game_mode, started_at, cards_studied, correct_count, xp_earned, duration_sec FROM study_session ORDER BY started_at DESC LIMIT ?",
             mapper = { cursor ->
@@ -58,13 +56,12 @@ class SessionRepositoryImpl(
                         )
                     )
                 }
-                sessions
+                QueryResult.Value(sessions.toList())
             },
             parameters = 1
         ) {
             bindLong(0, limit.toLong())
-        }
-        cursor.value
+        }.value
     }
 
     override suspend fun recordDailyStats(
@@ -94,11 +91,11 @@ class SessionRepositoryImpl(
     }
 
     override suspend fun getDailyStats(date: String): DailyStatsData? = withContext(Dispatchers.Default) {
-        val cursor = driver.executeQuery(
+        driver.executeQuery(
             identifier = null,
             sql = "SELECT date, cards_reviewed, xp_earned, study_time_sec FROM daily_stats WHERE date = ?",
             mapper = { cursor ->
-                if (cursor.next().value) {
+                val result = if (cursor.next().value) {
                     DailyStatsData(
                         date = cursor.getString(0)!!,
                         cardsReviewed = cursor.getLong(1)!!.toInt(),
@@ -106,17 +103,17 @@ class SessionRepositoryImpl(
                         studyTimeSec = cursor.getLong(3)!!.toInt()
                     )
                 } else null
+                QueryResult.Value(result)
             },
             parameters = 1
         ) {
             bindString(0, date)
-        }
-        cursor.value
+        }.value
     }
 
     override suspend fun getDailyStatsRange(startDate: String, endDate: String): List<DailyStatsData> =
         withContext(Dispatchers.Default) {
-            val cursor = driver.executeQuery(
+            driver.executeQuery(
                 identifier = null,
                 sql = "SELECT date, cards_reviewed, xp_earned, study_time_sec FROM daily_stats WHERE date >= ? AND date <= ? ORDER BY date",
                 mapper = { cursor ->
@@ -131,13 +128,12 @@ class SessionRepositoryImpl(
                             )
                         )
                     }
-                    stats
+                    QueryResult.Value(stats.toList())
                 },
                 parameters = 2
             ) {
                 bindString(0, startDate)
                 bindString(1, endDate)
-            }
-            cursor.value
+            }.value
         }
 }

@@ -115,7 +115,7 @@ class FlashcardViewModel @Inject constructor(
             srsRepository.upsertCard(updatedCard)
 
             // Update XP
-            val xp = scoringEngine.calculateXp(correct, 0)
+            val xp = scoringEngine.calculateScore(if (correct) quality else 1, 0, isNewCard = state.currentCard == null).totalXp
             totalXp += xp
 
             _uiState.value = state.copy(
@@ -138,6 +138,7 @@ class FlashcardViewModel @Inject constructor(
                 gameMode = GameMode.VOCABULARY,
                 cardsStudied = state.cardsStudied,
                 correctCount = state.correctCount,
+                comboMax = 0,
                 xpEarned = totalXp,
                 durationSec = duration
             )

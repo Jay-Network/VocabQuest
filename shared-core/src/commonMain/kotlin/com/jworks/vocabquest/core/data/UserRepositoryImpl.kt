@@ -1,24 +1,23 @@
 package com.jworks.vocabquest.core.data
 
+import app.cash.sqldelight.db.QueryResult
+import app.cash.sqldelight.db.SqlDriver
 import com.jworks.vocabquest.core.domain.model.UserProfile
 import com.jworks.vocabquest.core.domain.repository.UserRepository
-import com.jworks.vocabquest.db.VocabQuestDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class UserRepositoryImpl(
-    private val database: VocabQuestDatabase
+    private val driver: SqlDriver
 ) : UserRepository {
-
-    private val driver get() = database.driver
 
     override suspend fun getProfile(): UserProfile = withContext(Dispatchers.Default) {
         ensureProfileExists()
-        val cursor = driver.executeQuery(
+        driver.executeQuery(
             identifier = null,
             sql = "SELECT total_xp, level, current_streak, longest_streak, last_study_date, daily_goal, words_mastered FROM user_profile WHERE id = 1",
             mapper = { cursor ->
-                if (cursor.next().value) {
+                val result = if (cursor.next().value) {
                     UserProfile(
                         totalXp = cursor.getLong(0)!!.toInt(),
                         level = cursor.getLong(1)!!.toInt(),
@@ -28,10 +27,10 @@ class UserRepositoryImpl(
                         dailyGoal = cursor.getLong(5)!!.toInt()
                     )
                 } else UserProfile()
+                QueryResult.Value(result)
             },
             parameters = 0
-        )
-        cursor.value
+        ).value
     }
 
     override suspend fun updateXpAndLevel(totalXp: Int, level: Int) = withContext(Dispatchers.Default) {

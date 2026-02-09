@@ -120,7 +120,8 @@ class QuizViewModel @Inject constructor(
         val correct = index == question.correctIndex
         if (correct) comboStreak++ else comboStreak = 0
 
-        val xp = scoringEngine.calculateXp(correct, comboStreak)
+        val quality = if (correct) 4 else 1
+        val xp = scoringEngine.calculateScore(quality, comboStreak, isNewCard = false).totalXp
 
         _uiState.value = state.copy(
             selectedAnswer = index,
@@ -132,11 +133,11 @@ class QuizViewModel @Inject constructor(
 
         // Update SRS for the word
         viewModelScope.launch {
-            val quality = if (correct) 4 else 1
+            val srsQuality = if (correct) 4 else 1
             val now = Clock.System.now().epochSeconds
             val existingCard = srsRepository.getCard(question.word.id)
             val card = existingCard ?: com.jworks.vocabquest.core.domain.model.SrsCard(wordId = question.word.id)
-            val updated = srsAlgorithm.review(card, quality, now)
+            val updated = srsAlgorithm.review(card, srsQuality, now)
             srsRepository.upsertCard(updated)
         }
     }
@@ -157,6 +158,7 @@ class QuizViewModel @Inject constructor(
                 gameMode = GameMode.RECOGNITION,
                 cardsStudied = state.totalQuestions,
                 correctCount = state.correctCount,
+                comboMax = state.streak,
                 xpEarned = state.xpEarned,
                 durationSec = duration
             )
