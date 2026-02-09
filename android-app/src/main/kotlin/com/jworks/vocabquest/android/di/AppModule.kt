@@ -3,8 +3,14 @@ package com.jworks.vocabquest.android.di
 import android.content.Context
 import com.jworks.vocabquest.core.data.DatabaseDriverFactory
 import com.jworks.vocabquest.core.data.JCoinRepositoryImpl
+import com.jworks.vocabquest.core.data.SessionRepositoryImpl
+import com.jworks.vocabquest.core.data.SrsRepositoryImpl
+import com.jworks.vocabquest.core.data.UserRepositoryImpl
 import com.jworks.vocabquest.core.data.VocabRepositoryImpl
 import com.jworks.vocabquest.core.domain.repository.JCoinRepository
+import com.jworks.vocabquest.core.domain.repository.SessionRepository
+import com.jworks.vocabquest.core.domain.repository.SrsRepository
+import com.jworks.vocabquest.core.domain.repository.UserRepository
 import com.jworks.vocabquest.core.domain.repository.VocabRepository
 import com.jworks.vocabquest.core.domain.usecase.CompleteSessionUseCase
 import com.jworks.vocabquest.core.scoring.ScoringEngine
@@ -37,6 +43,24 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideUserRepository(db: VocabQuestDatabase): UserRepository {
+        return UserRepositoryImpl(db)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSessionRepository(db: VocabQuestDatabase): SessionRepository {
+        return SessionRepositoryImpl(db)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSrsRepository(db: VocabQuestDatabase): SrsRepository {
+        return SrsRepositoryImpl(db)
+    }
+
+    @Provides
+    @Singleton
     fun provideJCoinRepository(db: VocabQuestDatabase): JCoinRepository {
         return JCoinRepositoryImpl(db)
     }
@@ -51,5 +75,20 @@ object AppModule {
     @Singleton
     fun provideScoringEngine(): ScoringEngine {
         return ScoringEngine()
+    }
+
+    @Provides
+    fun provideCompleteSessionUseCase(
+        userRepository: UserRepository,
+        sessionRepository: SessionRepository,
+        scoringEngine: ScoringEngine,
+        jCoinRepository: JCoinRepository
+    ): CompleteSessionUseCase {
+        return CompleteSessionUseCase(
+            userRepository = userRepository,
+            sessionRepository = sessionRepository,
+            scoringEngine = scoringEngine,
+            jCoinRepository = jCoinRepository
+        )
     }
 }

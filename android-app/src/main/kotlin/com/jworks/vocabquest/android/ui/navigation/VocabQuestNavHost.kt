@@ -4,7 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.jworks.vocabquest.android.ui.game.flashcard.FlashcardScreen
+import com.jworks.vocabquest.android.ui.game.quiz.QuizScreen
 import com.jworks.vocabquest.android.ui.home.HomeScreen
+import com.jworks.vocabquest.android.ui.progress.ProgressScreen
+import com.jworks.vocabquest.android.ui.shop.ShopScreen
 
 @Composable
 fun VocabQuestNavHost() {
@@ -23,18 +27,17 @@ fun VocabQuestNavHost() {
             )
         }
 
-        // Placeholder screens - will be implemented in future tasks
         composable(NavRoute.Quiz.route) {
-            // QuizScreen(onBack = { navController.popBackStack() })
+            QuizScreen(onBack = { navController.popBackStack() })
         }
         composable(NavRoute.Flashcard.route) {
-            // FlashcardScreen(onBack = { navController.popBackStack() })
+            FlashcardScreen(onBack = { navController.popBackStack() })
         }
         composable(NavRoute.Shop.route) {
-            // ShopScreen(onBack = { navController.popBackStack() })
+            ShopScreen(onBack = { navController.popBackStack() })
         }
         composable(NavRoute.Progress.route) {
-            // ProgressScreen(onBack = { navController.popBackStack() })
+            ProgressScreen(onBack = { navController.popBackStack() })
         }
     }
 }
