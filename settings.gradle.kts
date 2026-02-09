@@ -14,10 +14,8 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "KanjiQuest"
+rootProject.name = "VocabQuest"
 
-include(":shared-japanese")
-include(":shared-tokenizer")
 include(":shared-core")
 include(":android-app")
 include(":data-pipeline")
