@@ -44,9 +44,23 @@ android {
         )
     }
 
+    signingConfigs {
+        create("release") {
+            val localPropertiesFile = rootProject.file("local.properties")
+            val localProperties = Properties().apply {
+                if (localPropertiesFile.exists()) load(localPropertiesFile.inputStream())
+            }
+            storeFile = file(localProperties.getProperty("RELEASE_STORE_FILE", "../keystore/vocabquest-release.jks"))
+            storePassword = localProperties.getProperty("RELEASE_STORE_PASSWORD", "")
+            keyAlias = localProperties.getProperty("RELEASE_KEY_ALIAS", "vocabquest")
+            keyPassword = localProperties.getProperty("RELEASE_KEY_PASSWORD", "")
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
