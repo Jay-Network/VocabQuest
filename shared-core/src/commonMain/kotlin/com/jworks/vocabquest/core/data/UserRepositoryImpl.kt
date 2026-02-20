@@ -19,12 +19,12 @@ class UserRepositoryImpl(
             mapper = { cursor ->
                 val result = if (cursor.next().value) {
                     UserProfile(
-                        totalXp = cursor.getLong(0)!!.toInt(),
-                        level = cursor.getLong(1)!!.toInt(),
-                        currentStreak = cursor.getLong(2)!!.toInt(),
-                        longestStreak = cursor.getLong(3)!!.toInt(),
+                        totalXp = (cursor.getLong(0) ?: 0).toInt(),
+                        level = (cursor.getLong(1) ?: 1).toInt(),
+                        currentStreak = (cursor.getLong(2) ?: 0).toInt(),
+                        longestStreak = (cursor.getLong(3) ?: 0).toInt(),
                         lastStudyDate = cursor.getString(4),
-                        dailyGoal = cursor.getLong(5)!!.toInt()
+                        dailyGoal = (cursor.getLong(5) ?: 20).toInt()
                     )
                 } else UserProfile()
                 QueryResult.Value(result)

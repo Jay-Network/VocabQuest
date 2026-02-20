@@ -18,16 +18,7 @@ class VocabRepositoryImpl(
             sql = "SELECT id, word, definition, pos, cefr_level, frequency_rank, phonetic, audio_url FROM word WHERE id = ?",
             mapper = { cursor ->
                 val result = if (cursor.next().value) {
-                    Word(
-                        id = cursor.getLong(0)!!.toInt(),
-                        word = cursor.getString(1)!!,
-                        definition = cursor.getString(2)!!,
-                        pos = cursor.getString(3) ?: "noun",
-                        cefrLevel = cursor.getString(4) ?: "B1",
-                        frequencyRank = cursor.getLong(5)!!.toInt(),
-                        phonetic = cursor.getString(6),
-                        audioUrl = cursor.getString(7)
-                    )
+                    cursorToWord(cursor)
                 } else null
                 QueryResult.Value(result)
             },
@@ -126,8 +117,11 @@ class VocabRepositoryImpl(
             identifier = null,
             sql = "SELECT COUNT(*) FROM word",
             mapper = { cursor ->
-                cursor.next()
-                QueryResult.Value(cursor.getLong(0)!!.toInt())
+                if (cursor.next().value) {
+                    QueryResult.Value(cursor.getLong(0)?.toInt() ?: 0)
+                } else {
+                    QueryResult.Value(0)
+                }
             },
             parameters = 0
         ).value
@@ -138,8 +132,11 @@ class VocabRepositoryImpl(
             identifier = null,
             sql = "SELECT COUNT(*) FROM word WHERE cefr_level = ?",
             mapper = { cursor ->
-                cursor.next()
-                QueryResult.Value(cursor.getLong(0)!!.toInt())
+                if (cursor.next().value) {
+                    QueryResult.Value(cursor.getLong(0)?.toInt() ?: 0)
+                } else {
+                    QueryResult.Value(0)
+                }
             },
             parameters = 1
         ) {
@@ -148,12 +145,12 @@ class VocabRepositoryImpl(
     }
 
     private fun cursorToWord(cursor: app.cash.sqldelight.db.SqlCursor) = Word(
-        id = cursor.getLong(0)!!.toInt(),
-        word = cursor.getString(1)!!,
-        definition = cursor.getString(2)!!,
+        id = (cursor.getLong(0) ?: 0).toInt(),
+        word = cursor.getString(1) ?: "",
+        definition = cursor.getString(2) ?: "",
         pos = cursor.getString(3) ?: "noun",
         cefrLevel = cursor.getString(4) ?: "B1",
-        frequencyRank = cursor.getLong(5)!!.toInt(),
+        frequencyRank = (cursor.getLong(5) ?: 0).toInt(),
         phonetic = cursor.getString(6),
         audioUrl = cursor.getString(7)
     )

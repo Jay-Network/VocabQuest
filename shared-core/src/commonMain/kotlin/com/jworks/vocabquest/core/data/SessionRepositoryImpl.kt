@@ -30,8 +30,11 @@ class SessionRepositoryImpl(
             identifier = null,
             sql = "SELECT last_insert_rowid()",
             mapper = { cursor ->
-                cursor.next()
-                QueryResult.Value(cursor.getLong(0)!!)
+                if (cursor.next().value) {
+                    QueryResult.Value(cursor.getLong(0) ?: 0L)
+                } else {
+                    QueryResult.Value(0L)
+                }
             },
             parameters = 0
         ).value
@@ -46,13 +49,13 @@ class SessionRepositoryImpl(
                 while (cursor.next().value) {
                     sessions.add(
                         StudySession(
-                            id = cursor.getLong(0)!!,
-                            gameMode = cursor.getString(1)!!,
-                            startedAt = cursor.getLong(2)!!,
-                            cardsStudied = cursor.getLong(3)!!.toInt(),
-                            correctCount = cursor.getLong(4)!!.toInt(),
-                            xpEarned = cursor.getLong(5)!!.toInt(),
-                            durationSec = cursor.getLong(6)!!.toInt()
+                            id = cursor.getLong(0) ?: 0L,
+                            gameMode = cursor.getString(1) ?: "unknown",
+                            startedAt = cursor.getLong(2) ?: 0L,
+                            cardsStudied = (cursor.getLong(3) ?: 0).toInt(),
+                            correctCount = (cursor.getLong(4) ?: 0).toInt(),
+                            xpEarned = (cursor.getLong(5) ?: 0).toInt(),
+                            durationSec = (cursor.getLong(6) ?: 0).toInt()
                         )
                     )
                 }
@@ -97,10 +100,10 @@ class SessionRepositoryImpl(
             mapper = { cursor ->
                 val result = if (cursor.next().value) {
                     DailyStatsData(
-                        date = cursor.getString(0)!!,
-                        cardsReviewed = cursor.getLong(1)!!.toInt(),
-                        xpEarned = cursor.getLong(2)!!.toInt(),
-                        studyTimeSec = cursor.getLong(3)!!.toInt()
+                        date = cursor.getString(0) ?: "",
+                        cardsReviewed = (cursor.getLong(1) ?: 0).toInt(),
+                        xpEarned = (cursor.getLong(2) ?: 0).toInt(),
+                        studyTimeSec = (cursor.getLong(3) ?: 0).toInt()
                     )
                 } else null
                 QueryResult.Value(result)
@@ -121,10 +124,10 @@ class SessionRepositoryImpl(
                     while (cursor.next().value) {
                         stats.add(
                             DailyStatsData(
-                                date = cursor.getString(0)!!,
-                                cardsReviewed = cursor.getLong(1)!!.toInt(),
-                                xpEarned = cursor.getLong(2)!!.toInt(),
-                                studyTimeSec = cursor.getLong(3)!!.toInt()
+                                date = cursor.getString(0) ?: "",
+                                cardsReviewed = (cursor.getLong(1) ?: 0).toInt(),
+                                xpEarned = (cursor.getLong(2) ?: 0).toInt(),
+                                studyTimeSec = (cursor.getLong(3) ?: 0).toInt()
                             )
                         )
                     }

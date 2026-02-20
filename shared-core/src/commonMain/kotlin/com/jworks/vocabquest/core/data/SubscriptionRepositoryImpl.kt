@@ -9,6 +9,8 @@ import com.jworks.vocabquest.core.domain.repository.SubscriptionRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 class SubscriptionRepositoryImpl(
@@ -16,10 +18,19 @@ class SubscriptionRepositoryImpl(
 ) : SubscriptionRepository {
 
     private val _subscriptionFlow = MutableStateFlow(Subscription())
+    private val initMutex = Mutex()
+    @Volatile private var initialized = false
 
-    init {
-        ensureTableExists()
-        loadCached()
+    private suspend fun ensureInitialized() {
+        if (initialized) return
+        initMutex.withLock {
+            if (initialized) return
+            withContext(Dispatchers.Default) {
+                ensureTableExists()
+                loadCached()
+            }
+            initialized = true
+        }
     }
 
     private fun ensureTableExists() {
@@ -63,22 +74,32 @@ class SubscriptionRepositoryImpl(
 
     override fun observeSubscription(): Flow<Subscription> = _subscriptionFlow
 
-    override suspend fun getSubscription(): Subscription = _subscriptionFlow.value
+    override suspend fun getSubscription(): Subscription {
+        ensureInitialized()
+        return _subscriptionFlow.value
+    }
 
-    override suspend fun getCurrentTier(): SubscriptionTier =
-        SubscriptionTier.fromPlan(_subscriptionFlow.value.plan)
+    override suspend fun getCurrentTier(): SubscriptionTier {
+        ensureInitialized()
+        return SubscriptionTier.fromPlan(_subscriptionFlow.value.plan)
+    }
 
-    override suspend fun isPremium(): Boolean =
-        _subscriptionFlow.value.plan == SubscriptionPlan.PREMIUM
+    override suspend fun isPremium(): Boolean {
+        ensureInitialized()
+        return _subscriptionFlow.value.plan == SubscriptionPlan.PREMIUM
+    }
 
-    override suspend fun updatePlan(plan: SubscriptionPlan) = withContext(Dispatchers.Default) {
-        driver.execute(
-            identifier = null,
-            sql = "UPDATE subscription SET plan = ? WHERE id = 1",
-            parameters = 1
-        ) {
-            bindString(0, plan.value)
+    override suspend fun updatePlan(plan: SubscriptionPlan) {
+        ensureInitialized()
+        withContext(Dispatchers.Default) {
+            driver.execute(
+                identifier = null,
+                sql = "UPDATE subscription SET plan = ? WHERE id = 1",
+                parameters = 1
+            ) {
+                bindString(0, plan.value)
+            }
+            _subscriptionFlow.value = _subscriptionFlow.value.copy(plan = plan)
         }
-        _subscriptionFlow.value = _subscriptionFlow.value.copy(plan = plan)
     }
 }

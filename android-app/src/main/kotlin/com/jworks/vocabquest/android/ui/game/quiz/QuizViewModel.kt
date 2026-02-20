@@ -86,8 +86,15 @@ class QuizViewModel @Inject constructor(
 
             val quizWords = (dueWords + newWords).take(20)
 
-            // Generate questions with wrong answers from the same pool
-            val allDefinitions = quizWords.map { it.definition }
+            // Need at least 4 words for multiple choice — fetch more if needed
+            val allDefinitions = quizWords.map { it.definition }.distinct().toMutableList()
+            if (allDefinitions.size < 4) {
+                val extraWords = vocabRepository.getRandomWords(10)
+                for (w in extraWords) {
+                    if (w.definition !in allDefinitions) allDefinitions.add(w.definition)
+                    if (allDefinitions.size >= 10) break
+                }
+            }
 
             for (word in quizWords) {
                 val wrongDefs = allDefinitions
@@ -95,8 +102,12 @@ class QuizViewModel @Inject constructor(
                     .shuffled()
                     .take(3)
 
+                if (wrongDefs.size < 3) continue // Skip words without enough distractors
+
                 val options = (wrongDefs + word.definition).shuffled()
-                val correctIndex = options.indexOf(word.definition)
+                // Use indexOfFirst to find the exact correct answer reliably
+                val correctAnswer = word.definition
+                val correctIndex = options.indexOfFirst { it == correctAnswer }
 
                 questions.add(QuizQuestion(word, options, correctIndex))
             }
@@ -179,7 +190,9 @@ class QuizViewModel @Inject constructor(
 
             try {
                 completeSessionUseCase.execute(stats)
-            } catch (_: Exception) { }
+            } catch (e: Exception) {
+                android.util.Log.e("QuizViewModel", "Failed to save session: ${e.message}", e)
+            }
 
             _uiState.value = state.copy(isFinished = true)
         }

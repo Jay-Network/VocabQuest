@@ -149,8 +149,8 @@ class FlashcardViewModel @Inject constructor(
 
             try {
                 completeSessionUseCase.execute(stats)
-            } catch (_: Exception) {
-                // Session completion is best-effort
+            } catch (e: Exception) {
+                android.util.Log.e("FlashcardVM", "Failed to save session: ${e.message}", e)
             }
 
             _uiState.value = state.copy(isFinished = true)

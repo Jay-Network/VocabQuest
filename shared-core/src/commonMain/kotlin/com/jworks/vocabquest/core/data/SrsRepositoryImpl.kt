@@ -53,7 +53,7 @@ class SrsRepositoryImpl(
             mapper = { cursor ->
                 val ids = mutableListOf<Int>()
                 while (cursor.next().value) {
-                    ids.add(cursor.getLong(0)!!.toInt())
+                    cursor.getLong(0)?.let { ids.add(it.toInt()) }
                 }
                 QueryResult.Value(ids.toList())
             },
@@ -97,8 +97,11 @@ class SrsRepositoryImpl(
             identifier = null,
             sql = "SELECT COUNT(*) FROM srs_card WHERE total_reviews > 0",
             mapper = { cursor ->
-                cursor.next()
-                QueryResult.Value(cursor.getLong(0)!!.toInt())
+                if (cursor.next().value) {
+                    QueryResult.Value(cursor.getLong(0)?.toInt() ?: 0)
+                } else {
+                    QueryResult.Value(0)
+                }
             },
             parameters = 0
         ).value
@@ -109,8 +112,11 @@ class SrsRepositoryImpl(
             identifier = null,
             sql = "SELECT COUNT(*) FROM srs_card WHERE state = 'graduated'",
             mapper = { cursor ->
-                cursor.next()
-                QueryResult.Value(cursor.getLong(0)!!.toInt())
+                if (cursor.next().value) {
+                    QueryResult.Value(cursor.getLong(0)?.toInt() ?: 0)
+                } else {
+                    QueryResult.Value(0)
+                }
             },
             parameters = 0
         ).value
@@ -118,12 +124,12 @@ class SrsRepositoryImpl(
 }
 
 private fun SqlCursor.toSrsCard() = SrsCard(
-    wordId = getLong(0)!!.toInt(),
-    easeFactor = getDouble(1)!!,
-    interval = getLong(2)!!.toInt(),
-    repetitions = getLong(3)!!.toInt(),
-    nextReview = getLong(4)!!,
+    wordId = (getLong(0) ?: 0).toInt(),
+    easeFactor = getDouble(1) ?: 2.5,
+    interval = (getLong(2) ?: 0).toInt(),
+    repetitions = (getLong(3) ?: 0).toInt(),
+    nextReview = getLong(4) ?: 0L,
     state = SrsState.fromString(getString(5) ?: "new"),
-    totalReviews = getLong(6)!!.toInt(),
-    correctCount = getLong(7)!!.toInt()
+    totalReviews = (getLong(6) ?: 0).toInt(),
+    correctCount = (getLong(7) ?: 0).toInt()
 )
