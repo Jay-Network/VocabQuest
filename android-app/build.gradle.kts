@@ -124,6 +124,10 @@ dependencies {
     // kotlinx-datetime
     implementation(libs.kotlinx.datetime)
 
+    // Firebase Cloud Messaging for feedback push notifications (plugin disabled until google-services.json added)
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    implementation("com.google.firebase:firebase-messaging-ktx")
+
     // WorkManager for background J Coin sync
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.androidx.hilt.work)

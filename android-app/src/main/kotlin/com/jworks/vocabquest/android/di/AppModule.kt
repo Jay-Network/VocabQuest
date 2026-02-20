@@ -3,12 +3,14 @@ package com.jworks.vocabquest.android.di
 import android.content.Context
 import app.cash.sqldelight.db.SqlDriver
 import com.jworks.vocabquest.core.data.DatabaseDriverFactory
+import com.jworks.vocabquest.core.data.FeedbackRepositoryImpl
 import com.jworks.vocabquest.core.data.JCoinRepositoryImpl
 import com.jworks.vocabquest.core.data.SessionRepositoryImpl
 import com.jworks.vocabquest.core.data.SrsRepositoryImpl
 import com.jworks.vocabquest.core.data.SubscriptionRepositoryImpl
 import com.jworks.vocabquest.core.data.UserRepositoryImpl
 import com.jworks.vocabquest.core.data.VocabRepositoryImpl
+import com.jworks.vocabquest.core.domain.repository.FeedbackRepository
 import com.jworks.vocabquest.core.domain.repository.JCoinRepository
 import com.jworks.vocabquest.core.domain.repository.SessionRepository
 import com.jworks.vocabquest.core.domain.repository.SrsRepository
@@ -77,6 +79,12 @@ object AppModule {
     @Singleton
     fun provideJCoinRepository(db: VocabQuestDatabase): JCoinRepository {
         return JCoinRepositoryImpl(db)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFeedbackRepository(): FeedbackRepository {
+        return FeedbackRepositoryImpl()
     }
 
     @Provides
