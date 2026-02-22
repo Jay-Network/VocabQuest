@@ -65,7 +65,7 @@ android {
 
 sqldelight {
     databases {
-        create("VocabQuestDatabase") {
+        create("EigoQuestDatabase") {
             packageName.set("com.jworks.vocabquest.db")
             dialect("app.cash.sqldelight:sqlite-3-38-dialect:${libs.versions.sqldelight.get()}")
         }

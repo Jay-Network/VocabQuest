@@ -1,4 +1,4 @@
-# VocabQuest ProGuard Rules
+# EigoQuest ProGuard Rules
 
 # Keep SQLDelight generated code
 -keep class com.jworks.vocabquest.db.** { *; }

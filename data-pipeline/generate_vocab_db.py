@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-VocabQuest Vocabulary Database Generator
+EigoQuest Vocabulary Database Generator
 
-Generates a SQLite database with 10,000 English words for the VocabQuest app.
+Generates a SQLite database with 10,000 English words for the EigoQuest app.
 
 Sources:
   - NLTK WordNet: definitions, examples, synonyms/antonyms
@@ -629,7 +629,7 @@ def verify_database(db_path: Path) -> dict:
 def print_report(stats: dict):
     """Print a formatted verification report."""
     print("\n" + "=" * 70)
-    print("VocabQuest Database Verification Report")
+    print("EigoQuest Database Verification Report")
     print("=" * 70)
 
     print(f"\nTotal words:           {stats['total_words']:,}")
@@ -695,7 +695,7 @@ def print_report(stats: dict):
 # ---------------------------------------------------------------------------
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate VocabQuest vocabulary database")
+    parser = argparse.ArgumentParser(description="Generate EigoQuest vocabulary database")
     parser.add_argument(
         "--output", "-o",
         default=DEFAULT_OUTPUT,
@@ -738,7 +738,7 @@ def main():
 
     start_time = time.time()
     log.info("=" * 50)
-    log.info("VocabQuest Vocabulary Database Generator")
+    log.info("EigoQuest Vocabulary Database Generator")
     log.info("=" * 50)
 
     # Phase 1: Load data sources

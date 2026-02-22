@@ -1,6 +1,6 @@
-# VocabQuest Data Pipeline
+# EigoQuest Data Pipeline
 
-Generates a SQLite database with 10,000 English vocabulary words for the VocabQuest app.
+Generates a SQLite database with 10,000 English vocabulary words for the EigoQuest app.
 
 ## Data Sources
 

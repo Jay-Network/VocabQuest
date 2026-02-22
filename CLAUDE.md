@@ -1,6 +1,6 @@
-# VocabQuest - Claude Code Agent Instructions
+# EigoQuest - Claude Code Agent Instructions
 
-**Project**: VocabQuest - English Vocabulary Learning App
+**Project**: EigoQuest (formerly VocabQuest) - English Vocabulary Learning App
 **Owner**: JWorks (Jay's Technology & Manufacturing Business)
 **Created**: 2026-02-08
 **Status**: Initial Setup
@@ -9,9 +9,11 @@
 
 ## Project Overview
 
-VocabQuest is an English vocabulary learning app designed for ESL students and language learners. It provides gamified vocabulary building with spaced repetition, context-based learning, and progress tracking.
+EigoQuest ("Eigo" = English in Japanese) is an English vocabulary learning app designed for ESL students and language learners. It provides gamified vocabulary building with spaced repetition, context-based learning, and progress tracking.
 
-**Core Value**: Unlike traditional flashcard apps, VocabQuest uses game mechanics and real-world context to make vocabulary acquisition engaging and effective.
+**Core Value**: Unlike traditional flashcard apps, EigoQuest uses game mechanics and real-world context to make vocabulary acquisition engaging and effective.
+
+**Brand Family**: KanjiLens + KanjiQuest (Japanese learning) / EigoLens + EigoQuest (English learning) — all connected via J Coin economy.
 
 ---
 
@@ -125,12 +127,12 @@ cd ~/Data_ubuntu/GitHub/Jay-Network/apps/VocabQuest/
 
 ## Sub-Agent Information
 
-**Identity**: [Claude-JWorks | VocabQuest-Dev] (jworks:45)
+**Identity**: [Claude-JWorks | EigoQuest-Dev] (jworks:45)
 **Launcher**: `claude-jworks-vocabquest`
 **Working Directory**: `/home/takuma/1_jworks/A_ai/4_Apps/VocabQuest/`
 **tmux Window**: jworks:45
 
-**Purpose**: Dedicated Android development agent for VocabQuest project
+**Purpose**: Dedicated Android development agent for EigoQuest project
 
 **Parent Agent**: Window 42 (Apps Division) - `jworks:42`
 
@@ -146,11 +148,12 @@ cd ~/Data_ubuntu/GitHub/Jay-Network/apps/VocabQuest/
 
 ### Strategic Value
 
-VocabQuest is part of JWorks' **educational app portfolio**:
+EigoQuest is part of JWorks' **educational app portfolio**:
 1. Complements TutoringJay curriculum
 2. Shares tech foundation with KanjiQuest (gamified learning)
-3. Potential B2B licensing to language schools
-4. Data insights for TutoringJay teaching methods
+3. Brand family: KanjiLens + KanjiQuest / EigoLens + EigoQuest
+4. Potential B2B licensing to language schools
+5. Data insights for TutoringJay teaching methods
 
 ---
 
@@ -159,7 +162,7 @@ VocabQuest is part of JWorks' **educational app portfolio**:
 **Sibling Apps**:
 - **KanjiQuest** (jworks:44) - Japanese kanji learning (gamified)
 - **KanjiLens** (jworks:43) - Japanese reading assistant (camera-based)
-- **EnglishLens** (jworks:46) - English text analyzer (camera-based)
+- **EigoLens** (jworks:46) - English text analyzer (camera-based)
 
 **Technology Sharing**:
 - Gamification engine (shared with KanjiQuest)
@@ -188,6 +191,6 @@ VocabQuest is part of JWorks' **educational app portfolio**:
 
 ---
 
-**Last Updated**: 2026-02-08
-**Status**: Initial setup - ready for planning
-**Next Milestone**: Define MVP scope and feature requirements
+**Last Updated**: 2026-02-21
+**Status**: ~85% complete, renamed from VocabQuest to EigoQuest
+**Next Milestone**: Store readiness and production release

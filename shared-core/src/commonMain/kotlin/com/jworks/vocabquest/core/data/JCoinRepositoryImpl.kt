@@ -14,7 +14,7 @@ import com.jworks.vocabquest.core.domain.model.ShopCategory
 import com.jworks.vocabquest.core.domain.model.ShopItem
 import com.jworks.vocabquest.core.domain.model.SyncStatus
 import com.jworks.vocabquest.core.domain.repository.JCoinRepository
-import com.jworks.vocabquest.db.VocabQuestDatabase
+import com.jworks.vocabquest.db.EigoQuestDatabase
 import io.github.jan.supabase.functions.functions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -26,7 +26,7 @@ import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonObject
 
 class JCoinRepositoryImpl(
-    private val database: VocabQuestDatabase,
+    private val database: EigoQuestDatabase,
     private val clock: Clock = Clock.System
 ) : JCoinRepository {
 

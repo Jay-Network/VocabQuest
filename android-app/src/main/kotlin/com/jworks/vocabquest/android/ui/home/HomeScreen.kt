@@ -65,7 +65,7 @@ fun HomeScreen(
             ) {
                 // Header
                 Text(
-                    text = "VocabQuest",
+                    text = "EigoQuest",
                     style = MaterialTheme.typography.headlineLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary

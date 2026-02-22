@@ -21,7 +21,7 @@ import com.jworks.vocabquest.android.ui.shop.ShopScreen
 import com.jworks.vocabquest.android.ui.subscription.SubscriptionScreen
 
 @Composable
-fun VocabQuestNavHost() {
+fun EigoQuestNavHost() {
     val navController = rememberNavController()
     val feedbackViewModel: FeedbackViewModel = hiltViewModel()
     val feedbackUiState by feedbackViewModel.uiState.collectAsState()

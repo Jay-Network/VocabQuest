@@ -21,7 +21,7 @@ import com.jworks.vocabquest.core.domain.usecase.CompleteSessionUseCase
 import com.jworks.vocabquest.core.scoring.ScoringEngine
 import com.jworks.vocabquest.core.srs.Sm2Algorithm
 import com.jworks.vocabquest.core.srs.SrsAlgorithm
-import com.jworks.vocabquest.db.VocabQuestDatabase
+import com.jworks.vocabquest.db.EigoQuestDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,8 +41,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(driver: SqlDriver): VocabQuestDatabase {
-        return VocabQuestDatabase(driver)
+    fun provideDatabase(driver: SqlDriver): EigoQuestDatabase {
+        return EigoQuestDatabase(driver)
     }
 
     @Provides
@@ -77,7 +77,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideJCoinRepository(db: VocabQuestDatabase): JCoinRepository {
+    fun provideJCoinRepository(db: EigoQuestDatabase): JCoinRepository {
         return JCoinRepositoryImpl(db)
     }
 

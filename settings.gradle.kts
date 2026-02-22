@@ -14,7 +14,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "VocabQuest"
+rootProject.name = "EigoQuest"
 
 include(":shared-core")
 include(":android-app")

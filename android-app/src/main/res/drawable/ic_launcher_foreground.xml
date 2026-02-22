@@ -4,8 +4,8 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <!-- V letter for VocabQuest -->
+    <!-- E letter for EigoQuest -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M34,30 L54,78 L74,30 L66,30 L54,62 L42,30 Z" />
+        android:pathData="M34,28 L74,28 L74,36 L42,36 L42,50 L70,50 L70,58 L42,58 L42,72 L74,72 L74,80 L34,80 Z" />
 </vector>

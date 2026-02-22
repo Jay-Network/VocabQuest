@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
-import com.jworks.vocabquest.db.VocabQuestDatabase
+import com.jworks.vocabquest.db.EigoQuestDatabase
 import java.io.FileOutputStream
 
 actual class DatabaseDriverFactory(private val context: Context) {
@@ -15,7 +15,7 @@ actual class DatabaseDriverFactory(private val context: Context) {
         }
         ensureNewTables()
         return AndroidSqliteDriver(
-            schema = VocabQuestDatabase.Schema,
+            schema = EigoQuestDatabase.Schema,
             context = context,
             name = DB_NAME
         )

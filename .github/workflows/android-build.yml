@@ -1,4 +1,4 @@
-name: VocabQuest Android Build
+name: EigoQuest Android Build
 
 on:
   push:

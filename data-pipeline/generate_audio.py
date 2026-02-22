@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-VocabQuest Audio Generator
+EigoQuest Audio Generator
 
 Generates OGG Vorbis pronunciation audio for all words in the vocabulary database
 using Microsoft Edge TTS (neural voices, free).
@@ -205,7 +205,7 @@ def verify_audio(output_dir: Path, expected_count: int) -> dict:
 def print_report(stats: dict):
     """Print audio verification report."""
     print("\n" + "=" * 60)
-    print("VocabQuest Audio Verification Report")
+    print("EigoQuest Audio Verification Report")
     print("=" * 60)
     print(f"\nTotal audio files:   {stats['total_files']:,}")
     print(f"Expected files:      {stats['expected_files']:,}")
@@ -243,7 +243,7 @@ def print_report(stats: dict):
 # ---------------------------------------------------------------------------
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate pronunciation audio for VocabQuest")
+    parser = argparse.ArgumentParser(description="Generate pronunciation audio for EigoQuest")
     parser.add_argument("--db", default=DEFAULT_DB, help="Path to vocabquest.db")
     parser.add_argument("--output", "-o", default=DEFAULT_OUTPUT_DIR, help="Output directory for audio files")
     parser.add_argument("--voice", default=DEFAULT_VOICE, help=f"Edge TTS voice (default: {DEFAULT_VOICE})")

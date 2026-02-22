@@ -7,7 +7,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-// VocabQuest palette: scholarly blue + energetic green
+// EigoQuest palette: scholarly blue + energetic green
 val Blue = Color(0xFF4A90D9)
 val BlueDark = Color(0xFF3A7BD5)
 val Green = Color(0xFF43A047)
@@ -44,7 +44,7 @@ private val DarkColors = darkColorScheme(
 )
 
 @Composable
-fun VocabQuestTheme(
+fun EigoQuestTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {

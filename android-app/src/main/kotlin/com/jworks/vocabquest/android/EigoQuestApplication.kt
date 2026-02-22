@@ -10,7 +10,7 @@ import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @HiltAndroidApp
-class VocabQuestApplication : Application(), Configuration.Provider {
+class EigoQuestApplication : Application(), Configuration.Provider {
 
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
@@ -34,12 +34,12 @@ class VocabQuestApplication : Application(), Configuration.Provider {
         if (supabaseUrl.isNotBlank() && supabaseKey.isNotBlank()) {
             try {
                 SupabaseClientFactory.initialize(supabaseUrl, supabaseKey)
-                Log.i("VocabQuest", "Supabase initialized for J Coin sync")
+                Log.i("EigoQuest", "Supabase initialized for J Coin sync")
             } catch (e: Exception) {
-                Log.w("VocabQuest", "Failed to initialize Supabase: ${e.message}")
+                Log.w("EigoQuest", "Failed to initialize Supabase: ${e.message}")
             }
         } else {
-            Log.i("VocabQuest", "Supabase credentials not configured - J Coin running in offline-only mode")
+            Log.i("EigoQuest", "Supabase credentials not configured - J Coin running in offline-only mode")
         }
     }
 }
