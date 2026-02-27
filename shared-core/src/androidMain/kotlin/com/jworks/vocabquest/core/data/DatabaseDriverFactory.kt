@@ -68,7 +68,7 @@ actual class DatabaseDriverFactory(private val context: Context) {
                     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                     user_id TEXT NOT NULL,
                     event_type TEXT NOT NULL,
-                    source_business TEXT NOT NULL DEFAULT 'vocabquest',
+                    source_business TEXT NOT NULL DEFAULT 'eigoquests',
                     source_type TEXT NOT NULL,
                     base_amount INTEGER NOT NULL,
                     description TEXT NOT NULL,
@@ -166,6 +166,37 @@ actual class DatabaseDriverFactory(private val context: Context) {
                     study_time_sec INTEGER NOT NULL DEFAULT 0
                 )
             """.trimIndent())
+
+            // Word collection (gacha)
+            it.execSQL("""
+                CREATE TABLE IF NOT EXISTS word_collection (
+                    word_id INTEGER PRIMARY KEY NOT NULL,
+                    rarity TEXT NOT NULL DEFAULT 'COMMON',
+                    item_level INTEGER NOT NULL DEFAULT 1,
+                    item_xp INTEGER NOT NULL DEFAULT 0,
+                    discovered_at INTEGER NOT NULL DEFAULT 0,
+                    source TEXT NOT NULL DEFAULT 'gameplay'
+                )
+            """.trimIndent())
+
+            // Received words (cross-app: EigoLens → EigoQuest)
+            it.execSQL("""
+                CREATE TABLE IF NOT EXISTS received_words (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                    word TEXT NOT NULL,
+                    ipa TEXT,
+                    cefr_level TEXT NOT NULL DEFAULT 'B1',
+                    source_app TEXT NOT NULL DEFAULT 'eigolens',
+                    sender_user_id TEXT NOT NULL,
+                    received_at INTEGER NOT NULL,
+                    srs_state TEXT NOT NULL DEFAULT 'new',
+                    linked_word_id INTEGER,
+                    mastered_at INTEGER
+                )
+            """.trimIndent())
+            it.execSQL("CREATE INDEX IF NOT EXISTS idx_received_srs_state ON received_words(srs_state)")
+            it.execSQL("CREATE INDEX IF NOT EXISTS idx_received_source ON received_words(source_app, sender_user_id)")
+            it.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS idx_received_unique_word ON received_words(word, sender_user_id)")
         }
     }
 

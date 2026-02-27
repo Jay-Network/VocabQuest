@@ -7,6 +7,7 @@ import com.jworks.vocabquest.core.collection.WordEncounterEngine
 import com.jworks.vocabquest.core.collection.WordLevelEngine
 import com.jworks.vocabquest.core.data.CollectionRepositoryImpl
 import com.jworks.vocabquest.core.data.FeedbackRepositoryImpl
+import com.jworks.vocabquest.core.data.ReceivedWordsRepositoryImpl
 import com.jworks.vocabquest.core.data.JCoinRepositoryImpl
 import com.jworks.vocabquest.core.data.SessionRepositoryImpl
 import com.jworks.vocabquest.core.data.SrsRepositoryImpl
@@ -15,12 +16,14 @@ import com.jworks.vocabquest.core.data.UserRepositoryImpl
 import com.jworks.vocabquest.core.data.VocabRepositoryImpl
 import com.jworks.vocabquest.core.domain.repository.CollectionRepository
 import com.jworks.vocabquest.core.domain.repository.FeedbackRepository
+import com.jworks.vocabquest.core.domain.repository.ReceivedWordsRepository
 import com.jworks.vocabquest.core.domain.repository.JCoinRepository
 import com.jworks.vocabquest.core.domain.repository.SessionRepository
 import com.jworks.vocabquest.core.domain.repository.SrsRepository
 import com.jworks.vocabquest.core.domain.repository.SubscriptionRepository
 import com.jworks.vocabquest.core.domain.repository.UserRepository
 import com.jworks.vocabquest.core.domain.repository.VocabRepository
+import com.jworks.vocabquest.core.domain.usecase.CheckWordMasteryUseCase
 import com.jworks.vocabquest.core.domain.usecase.CompleteSessionUseCase
 import com.jworks.vocabquest.core.scoring.ScoringEngine
 import com.jworks.vocabquest.core.srs.Sm2Algorithm
@@ -111,6 +114,12 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideReceivedWordsRepository(db: EigoQuestDatabase): ReceivedWordsRepository {
+        return ReceivedWordsRepositoryImpl(db)
+    }
+
+    @Provides
+    @Singleton
     fun provideFeedbackRepository(): FeedbackRepository {
         return FeedbackRepositoryImpl()
     }
@@ -125,6 +134,14 @@ object AppModule {
     @Singleton
     fun provideScoringEngine(): ScoringEngine {
         return ScoringEngine()
+    }
+
+    @Provides
+    fun provideCheckWordMasteryUseCase(
+        receivedWordsRepository: ReceivedWordsRepository,
+        jCoinRepository: JCoinRepository
+    ): CheckWordMasteryUseCase {
+        return CheckWordMasteryUseCase(receivedWordsRepository, jCoinRepository)
     }
 
     @Provides

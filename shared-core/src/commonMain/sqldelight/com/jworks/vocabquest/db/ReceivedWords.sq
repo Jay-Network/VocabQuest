@@ -1,0 +1,65 @@
+-- Received words from cross-app integration (EigoLens → EigoQuest)
+-- Words sent via 'Send to EigoQuest' button feed into SRS system.
+-- When mastered (srs_state=graduated), fires eigoquest_word_mastered earn trigger.
+
+CREATE TABLE received_words (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    word TEXT NOT NULL,
+    ipa TEXT,
+    cefr_level TEXT NOT NULL DEFAULT 'B1',
+    source_app TEXT NOT NULL DEFAULT 'eigolens',
+    sender_user_id TEXT NOT NULL,
+    received_at INTEGER NOT NULL,
+    srs_state TEXT NOT NULL DEFAULT 'new',
+    linked_word_id INTEGER,
+    mastered_at INTEGER
+);
+
+CREATE INDEX idx_received_srs_state ON received_words(srs_state);
+CREATE INDEX idx_received_source ON received_words(source_app, sender_user_id);
+CREATE UNIQUE INDEX idx_received_unique_word ON received_words(word, sender_user_id);
+
+-- Queries
+
+getAll:
+SELECT * FROM received_words ORDER BY received_at DESC;
+
+getPending:
+SELECT * FROM received_words WHERE srs_state = 'new' ORDER BY received_at ASC;
+
+getByState:
+SELECT * FROM received_words WHERE srs_state = ? ORDER BY received_at DESC;
+
+getById:
+SELECT * FROM received_words WHERE id = ?;
+
+getByWord:
+SELECT * FROM received_words WHERE word = ? AND sender_user_id = ?;
+
+getCount:
+SELECT COUNT(*) FROM received_words;
+
+getPendingCount:
+SELECT COUNT(*) FROM received_words WHERE srs_state = 'new';
+
+getMasteredCount:
+SELECT COUNT(*) FROM received_words WHERE srs_state = 'graduated';
+
+insert:
+INSERT OR IGNORE INTO received_words(word, ipa, cefr_level, source_app, sender_user_id, received_at, srs_state)
+VALUES (?, ?, ?, ?, ?, ?, 'new');
+
+updateState:
+UPDATE received_words SET srs_state = ? WHERE id = ?;
+
+markMastered:
+UPDATE received_words SET srs_state = 'graduated', mastered_at = ? WHERE id = ?;
+
+linkToWord:
+UPDATE received_words SET linked_word_id = ? WHERE id = ?;
+
+deleteById:
+DELETE FROM received_words WHERE id = ?;
+
+deleteAll:
+DELETE FROM received_words;

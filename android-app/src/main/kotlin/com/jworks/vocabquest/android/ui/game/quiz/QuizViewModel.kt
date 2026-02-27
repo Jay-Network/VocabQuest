@@ -7,6 +7,7 @@ import com.jworks.vocabquest.core.collection.WordEncounterEngine
 import com.jworks.vocabquest.core.collection.WordLevelEngine
 import com.jworks.vocabquest.core.collection.WordLevelResult
 import com.jworks.vocabquest.core.domain.model.GameMode
+import com.jworks.vocabquest.core.domain.usecase.CheckWordMasteryUseCase
 import com.jworks.vocabquest.core.domain.model.Word
 import com.jworks.vocabquest.core.domain.repository.SrsRepository
 import com.jworks.vocabquest.core.domain.repository.SubscriptionRepository
@@ -55,7 +56,8 @@ class QuizViewModel @Inject constructor(
     private val completeSessionUseCase: CompleteSessionUseCase,
     private val subscriptionRepository: SubscriptionRepository,
     private val encounterEngine: WordEncounterEngine,
-    private val levelEngine: WordLevelEngine
+    private val levelEngine: WordLevelEngine,
+    private val checkWordMasteryUseCase: CheckWordMasteryUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(QuizUiState())
@@ -173,6 +175,9 @@ class QuizViewModel @Inject constructor(
             val card = existingCard ?: com.jworks.vocabquest.core.domain.model.SrsCard(wordId = question.word.id)
             val updated = srsAlgorithm.review(card, srsQuality, now)
             srsRepository.upsertCard(updated)
+
+            // Check if a received word just got mastered
+            checkWordMasteryUseCase.execute(question.word.id, card.state, updated.state)
 
             // Collection: level up existing words + roll for new encounters
             val levelResult = levelEngine.addXp(question.word.id, correct, comboStreak)

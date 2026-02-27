@@ -7,6 +7,7 @@ import com.jworks.vocabquest.core.collection.WordEncounterEngine
 import com.jworks.vocabquest.core.collection.WordLevelEngine
 import com.jworks.vocabquest.core.collection.WordLevelResult
 import com.jworks.vocabquest.core.domain.model.GameMode
+import com.jworks.vocabquest.core.domain.usecase.CheckWordMasteryUseCase
 import com.jworks.vocabquest.core.domain.model.SrsCard
 import com.jworks.vocabquest.core.domain.model.Word
 import com.jworks.vocabquest.core.domain.repository.SrsRepository
@@ -48,7 +49,8 @@ class FlashcardViewModel @Inject constructor(
     private val completeSessionUseCase: CompleteSessionUseCase,
     private val subscriptionRepository: SubscriptionRepository,
     private val encounterEngine: WordEncounterEngine,
-    private val levelEngine: WordLevelEngine
+    private val levelEngine: WordLevelEngine,
+    private val checkWordMasteryUseCase: CheckWordMasteryUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(FlashcardUiState())
@@ -126,6 +128,9 @@ class FlashcardViewModel @Inject constructor(
             val existingCard = state.currentCard ?: SrsCard(wordId = word.id)
             val updatedCard = srsAlgorithm.review(existingCard, quality, now)
             srsRepository.upsertCard(updatedCard)
+
+            // Check if a received word just got mastered
+            checkWordMasteryUseCase.execute(word.id, existingCard.state, updatedCard.state)
 
             // Update XP
             val xp = scoringEngine.calculateScore(if (correct) quality else 1, 0, isNewCard = state.currentCard == null).totalXp
