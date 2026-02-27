@@ -1,0 +1,50 @@
+-- Word collection: Pokemon-style discovery, rarity, and leveling
+
+CREATE TABLE word_collection (
+    word_id INTEGER NOT NULL PRIMARY KEY,
+    rarity TEXT NOT NULL DEFAULT 'common',
+    item_level INTEGER NOT NULL DEFAULT 1,
+    item_xp INTEGER NOT NULL DEFAULT 0,
+    discovered_at INTEGER NOT NULL,
+    source TEXT NOT NULL DEFAULT 'gameplay'
+);
+
+CREATE INDEX idx_collection_rarity ON word_collection(rarity);
+
+-- Basic queries
+getAll:
+SELECT * FROM word_collection ORDER BY discovered_at DESC;
+
+getByRarity:
+SELECT * FROM word_collection WHERE rarity = ? ORDER BY discovered_at DESC;
+
+getItem:
+SELECT * FROM word_collection WHERE word_id = ?;
+
+isCollected:
+SELECT COUNT(*) FROM word_collection WHERE word_id = ?;
+
+insert:
+INSERT OR IGNORE INTO word_collection (word_id, rarity, item_level, item_xp, discovered_at, source)
+VALUES (?, ?, ?, ?, ?, ?);
+
+-- XP and leveling
+addXp:
+UPDATE word_collection SET item_xp = item_xp + ? WHERE word_id = ?;
+
+updateLevel:
+UPDATE word_collection SET item_level = ?, item_xp = ? WHERE word_id = ?;
+
+-- Counting queries
+getTotalCount:
+SELECT COUNT(*) FROM word_collection;
+
+getCountByRarity:
+SELECT COUNT(*) FROM word_collection WHERE rarity = ?;
+
+getCollectedWordIds:
+SELECT word_id FROM word_collection;
+
+-- Recent discoveries
+getRecent:
+SELECT * FROM word_collection ORDER BY discovered_at DESC LIMIT ?;

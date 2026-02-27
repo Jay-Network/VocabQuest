@@ -7,6 +7,7 @@ sealed class NavRoute(val route: String) {
     data object Shop : NavRoute("shop")
     data object Progress : NavRoute("progress")
     data object Subscription : NavRoute("subscription")
+    data object Collection : NavRoute("collection")
     data object Settings : NavRoute("settings")
     data object WordDetail : NavRoute("word/{wordId}") {
         fun createRoute(wordId: Int) = "word/$wordId"

@@ -3,6 +3,9 @@ package com.jworks.vocabquest.android.di
 import android.content.Context
 import app.cash.sqldelight.db.SqlDriver
 import com.jworks.vocabquest.core.data.DatabaseDriverFactory
+import com.jworks.vocabquest.core.collection.WordEncounterEngine
+import com.jworks.vocabquest.core.collection.WordLevelEngine
+import com.jworks.vocabquest.core.data.CollectionRepositoryImpl
 import com.jworks.vocabquest.core.data.FeedbackRepositoryImpl
 import com.jworks.vocabquest.core.data.JCoinRepositoryImpl
 import com.jworks.vocabquest.core.data.SessionRepositoryImpl
@@ -10,6 +13,7 @@ import com.jworks.vocabquest.core.data.SrsRepositoryImpl
 import com.jworks.vocabquest.core.data.SubscriptionRepositoryImpl
 import com.jworks.vocabquest.core.data.UserRepositoryImpl
 import com.jworks.vocabquest.core.data.VocabRepositoryImpl
+import com.jworks.vocabquest.core.domain.repository.CollectionRepository
 import com.jworks.vocabquest.core.domain.repository.FeedbackRepository
 import com.jworks.vocabquest.core.domain.repository.JCoinRepository
 import com.jworks.vocabquest.core.domain.repository.SessionRepository
@@ -79,6 +83,29 @@ object AppModule {
     @Singleton
     fun provideJCoinRepository(db: EigoQuestDatabase): JCoinRepository {
         return JCoinRepositoryImpl(db)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCollectionRepository(db: EigoQuestDatabase): CollectionRepository {
+        return CollectionRepositoryImpl(db)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWordEncounterEngine(
+        collectionRepository: CollectionRepository,
+        vocabRepository: VocabRepository
+    ): WordEncounterEngine {
+        return WordEncounterEngine(collectionRepository, vocabRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWordLevelEngine(
+        collectionRepository: CollectionRepository
+    ): WordLevelEngine {
+        return WordLevelEngine(collectionRepository)
     }
 
     @Provides

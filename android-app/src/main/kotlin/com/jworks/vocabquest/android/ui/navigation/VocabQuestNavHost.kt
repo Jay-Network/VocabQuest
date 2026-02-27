@@ -15,6 +15,7 @@ import com.jworks.vocabquest.android.ui.feedback.FeedbackFAB
 import com.jworks.vocabquest.android.ui.feedback.FeedbackViewModel
 import com.jworks.vocabquest.android.ui.game.flashcard.FlashcardScreen
 import com.jworks.vocabquest.android.ui.game.quiz.QuizScreen
+import com.jworks.vocabquest.android.ui.collection.CollectionScreen
 import com.jworks.vocabquest.android.ui.home.HomeScreen
 import com.jworks.vocabquest.android.ui.progress.ProgressScreen
 import com.jworks.vocabquest.android.ui.shop.ShopScreen
@@ -42,7 +43,8 @@ fun EigoQuestNavHost() {
                     onFlashcardClick = { navController.navigate(NavRoute.Flashcard.route) },
                     onShopClick = { navController.navigate(NavRoute.Shop.route) },
                     onProgressClick = { navController.navigate(NavRoute.Progress.route) },
-                    onSubscriptionClick = { navController.navigate(NavRoute.Subscription.route) }
+                    onSubscriptionClick = { navController.navigate(NavRoute.Subscription.route) },
+                    onCollectionClick = { navController.navigate(NavRoute.Collection.route) }
                 )
             }
 
@@ -60,6 +62,9 @@ fun EigoQuestNavHost() {
             }
             composable(NavRoute.Subscription.route) {
                 SubscriptionScreen(onBack = { navController.popBackStack() })
+            }
+            composable(NavRoute.Collection.route) {
+                CollectionScreen(onBack = { navController.popBackStack() })
             }
         }
 

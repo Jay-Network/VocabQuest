@@ -2,6 +2,10 @@ package com.jworks.vocabquest.android.ui.game.flashcard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jworks.vocabquest.core.collection.EncounterResult
+import com.jworks.vocabquest.core.collection.WordEncounterEngine
+import com.jworks.vocabquest.core.collection.WordLevelEngine
+import com.jworks.vocabquest.core.collection.WordLevelResult
 import com.jworks.vocabquest.core.domain.model.GameMode
 import com.jworks.vocabquest.core.domain.model.SrsCard
 import com.jworks.vocabquest.core.domain.model.Word
@@ -29,7 +33,10 @@ data class FlashcardUiState(
     val totalCards: Int = 0,
     val isFinished: Boolean = false,
     val xpEarned: Int = 0,
-    val isLoading: Boolean = true
+    val isLoading: Boolean = true,
+    val lastEncounter: EncounterResult? = null,
+    val lastLevelUp: WordLevelResult? = null,
+    val totalDiscoveries: Int = 0
 )
 
 @HiltViewModel
@@ -39,7 +46,9 @@ class FlashcardViewModel @Inject constructor(
     private val srsAlgorithm: SrsAlgorithm,
     private val scoringEngine: ScoringEngine,
     private val completeSessionUseCase: CompleteSessionUseCase,
-    private val subscriptionRepository: SubscriptionRepository
+    private val subscriptionRepository: SubscriptionRepository,
+    private val encounterEngine: WordEncounterEngine,
+    private val levelEngine: WordLevelEngine
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(FlashcardUiState())
@@ -122,15 +131,32 @@ class FlashcardViewModel @Inject constructor(
             val xp = scoringEngine.calculateScore(if (correct) quality else 1, 0, isNewCard = state.currentCard == null).totalXp
             totalXp += xp
 
+            // Collection: level up existing words + roll for new encounters
+            val levelResult = levelEngine.addXp(word.id, correct)
+            var encounter: EncounterResult? = null
+            if (correct) {
+                encounter = encounterEngine.rollEncounter(
+                    unlockedLevels = listOf("A1", "A2", "B1", "B2", "C1", "C2"),
+                    currentTime = now
+                )
+            }
+
             _uiState.value = state.copy(
                 cardsStudied = state.cardsStudied + 1,
                 correctCount = state.correctCount + if (correct) 1 else 0,
-                xpEarned = totalXp
+                xpEarned = totalXp,
+                lastEncounter = encounter,
+                lastLevelUp = levelResult?.takeIf { it.leveledUp },
+                totalDiscoveries = state.totalDiscoveries + if (encounter != null) 1 else 0
             )
 
             currentIndex++
             showCurrentCard()
         }
+    }
+
+    fun dismissEncounter() {
+        _uiState.value = _uiState.value.copy(lastEncounter = null, lastLevelUp = null)
     }
 
     private fun finishSession() {

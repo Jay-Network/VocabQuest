@@ -43,6 +43,7 @@ fun HomeScreen(
     onShopClick: () -> Unit,
     onProgressClick: () -> Unit,
     onSubscriptionClick: () -> Unit = {},
+    onCollectionClick: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
@@ -232,6 +233,16 @@ fun HomeScreen(
                         )
                     }
                 }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // Collection
+                GameModeCard(
+                    title = "Word Collection",
+                    description = "Discover & collect words",
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = onCollectionClick
+                )
 
                 Spacer(modifier = Modifier.height(24.dp))
 
