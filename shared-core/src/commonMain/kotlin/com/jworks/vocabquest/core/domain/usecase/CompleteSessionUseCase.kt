@@ -2,6 +2,7 @@ package com.jworks.vocabquest.core.domain.usecase
 
 import com.jworks.vocabquest.core.domain.UserSessionProvider
 import com.jworks.vocabquest.core.domain.model.DailyStatsData
+import com.jworks.vocabquest.core.domain.model.EarnTriggers
 import com.jworks.vocabquest.core.domain.model.LOCAL_USER_ID
 import com.jworks.vocabquest.core.domain.model.StudySession
 import com.jworks.vocabquest.core.domain.model.UserProfile
@@ -23,7 +24,8 @@ class CompleteSessionUseCase(
     private val jCoinRepository: JCoinRepository? = null,
     private val userSessionProvider: UserSessionProvider? = null,
     private val learningSyncRepository: LearningSyncRepository? = null,
-    private val achievementRepository: AchievementRepository? = null
+    private val achievementRepository: AchievementRepository? = null,
+    private val srsRepository: com.jworks.vocabquest.core.domain.repository.SrsRepository? = null
 ) {
     suspend fun execute(stats: SessionStats): SessionResult {
         val today = Clock.System.todayIn(TimeZone.currentSystemDefault()).toString()
@@ -86,13 +88,10 @@ class CompleteSessionUseCase(
             lastStudyDate = today
         )
 
-        // 5. Award J Coins (only for premium users)
-        val isPremium = userSessionProvider?.isPremium() ?: false
-        val coinsEarned = if (isPremium) {
-            awardCoins(stats, streakResult)
-        } else {
-            0
-        }
+        // 5. Award J Coins
+        // Check if this is first session today (streak just started or increased)
+        val isFirstSessionToday = streakResult.increased
+        val coinsEarned = awardCoins(stats, streakResult, leveledUp, isFirstSessionToday)
 
         // 6. Queue learning data sync (for logged-in users)
         val userId = userSessionProvider?.getUserId()
@@ -134,60 +133,88 @@ class CompleteSessionUseCase(
         )
     }
 
-    private suspend fun awardCoins(stats: SessionStats, streakResult: StreakResult): Int {
+    private suspend fun awardCoins(
+        stats: SessionStats,
+        streakResult: StreakResult,
+        leveledUp: Boolean = false,
+        isFirstSessionToday: Boolean = false
+    ): Int {
         val repo = jCoinRepository ?: return 0
         val userId = userSessionProvider?.getUserId() ?: LOCAL_USER_ID
         var total = 0
 
-        // Session completion: 10 coins for 20+ cards, 5 for 10+
-        val sessionCoins = when {
-            stats.cardsStudied >= 20 -> 10
-            stats.cardsStudied >= 10 -> 5
-            else -> 0
-        }
-        if (sessionCoins > 0) {
-            repo.earnCoins(
-                userId = userId,
-                sourceType = "srs_review_complete",
-                baseAmount = sessionCoins,
-                description = "Completed review session (${stats.cardsStudied} cards)"
-            )
-            total += sessionCoins
+        // --- Session-based triggers ---
+
+        // STUDY_SESSION: 5 coins for 10+ cards
+        if (stats.cardsStudied >= 10) {
+            repo.earnCoins(userId, EarnTriggers.STUDY_SESSION, 5,
+                "Completed study session (${stats.cardsStudied} cards)")
+            total += 5
         }
 
-        // Perfect score bonus: 25 coins for 100% accuracy with 10+ cards
+        // LONG_SESSION: 10 coins for 20+ cards (stacks with STUDY_SESSION)
+        if (stats.cardsStudied >= 20) {
+            repo.earnCoins(userId, EarnTriggers.LONG_SESSION, 10,
+                "Extended study session (${stats.cardsStudied} cards)")
+            total += 10
+        }
+
+        // PERFECT_QUIZ: 25 coins for 100% accuracy with 10+ cards
         if (stats.correctCount == stats.cardsStudied && stats.cardsStudied >= 10) {
-            repo.earnCoins(
-                userId = userId,
-                sourceType = "perfect_quiz",
-                baseAmount = 25,
-                description = "Perfect score! ${stats.cardsStudied}/${stats.cardsStudied}"
-            )
+            repo.earnCoins(userId, EarnTriggers.PERFECT_QUIZ, 25,
+                "Perfect score! ${stats.cardsStudied}/${stats.cardsStudied}")
             total += 25
         }
 
-        // Streak milestones (only when streak increases)
+        // FIRST_SESSION_OF_DAY: 3 coins
+        if (isFirstSessionToday) {
+            repo.earnCoins(userId, EarnTriggers.FIRST_SESSION, 3,
+                "First study session today")
+            total += 3
+        }
+
+        // --- Streak milestones ---
+
         if (streakResult.increased) {
-            when (streakResult.currentStreak) {
-                7 -> {
-                    repo.earnCoins(
-                        userId = userId,
-                        sourceType = "streak_7_days",
-                        baseAmount = 50,
-                        description = "7-day study streak!"
-                    )
-                    total += 50
-                }
-                30 -> {
-                    repo.earnCoins(
-                        userId = userId,
-                        sourceType = "streak_30_days",
-                        baseAmount = 300,
-                        description = "30-day study streak!"
-                    )
-                    total += 300
-                }
+            val streakTriggers = mapOf(
+                3 to Pair(EarnTriggers.STREAK_3, 15),
+                7 to Pair(EarnTriggers.STREAK_7, 50),
+                14 to Pair(EarnTriggers.STREAK_14, 100),
+                30 to Pair(EarnTriggers.STREAK_30, 300)
+            )
+            streakTriggers[streakResult.currentStreak]?.let { (trigger, amount) ->
+                repo.earnCoins(userId, trigger, amount,
+                    "${streakResult.currentStreak}-day study streak!")
+                total += amount
             }
+        }
+
+        // --- Word milestones ---
+
+        val totalReviewed = try {
+            srsRepository?.getTotalReviewedCount() ?: 0
+        } catch (_: Exception) { 0 }
+
+        val wordMilestones = mapOf(
+            100 to Pair(EarnTriggers.WORDS_100, 50),
+            500 to Pair(EarnTriggers.WORDS_500, 150),
+            1000 to Pair(EarnTriggers.WORDS_1000, 500)
+        )
+        for ((threshold, triggerPair) in wordMilestones) {
+            // Award if we just crossed the threshold this session
+            val prevCount = totalReviewed - stats.cardsStudied
+            if (prevCount < threshold && totalReviewed >= threshold) {
+                repo.earnCoins(userId, triggerPair.first, triggerPair.second,
+                    "Reviewed $threshold words!")
+                total += triggerPair.second
+            }
+        }
+
+        // --- Level-up ---
+
+        if (leveledUp) {
+            repo.earnCoins(userId, EarnTriggers.LEVEL_UP, 20, "Leveled up!")
+            total += 20
         }
 
         return total

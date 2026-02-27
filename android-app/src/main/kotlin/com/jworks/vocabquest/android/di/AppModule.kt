@@ -95,9 +95,10 @@ object AppModule {
     @Singleton
     fun provideWordEncounterEngine(
         collectionRepository: CollectionRepository,
-        vocabRepository: VocabRepository
+        vocabRepository: VocabRepository,
+        jCoinRepository: JCoinRepository
     ): WordEncounterEngine {
-        return WordEncounterEngine(collectionRepository, vocabRepository)
+        return WordEncounterEngine(collectionRepository, vocabRepository, jCoinRepository)
     }
 
     @Provides
@@ -131,13 +132,15 @@ object AppModule {
         userRepository: UserRepository,
         sessionRepository: SessionRepository,
         scoringEngine: ScoringEngine,
-        jCoinRepository: JCoinRepository
+        jCoinRepository: JCoinRepository,
+        srsRepository: SrsRepository
     ): CompleteSessionUseCase {
         return CompleteSessionUseCase(
             userRepository = userRepository,
             sessionRepository = sessionRepository,
             scoringEngine = scoringEngine,
-            jCoinRepository = jCoinRepository
+            jCoinRepository = jCoinRepository,
+            srsRepository = srsRepository
         )
     }
 }

@@ -1,9 +1,12 @@
 package com.jworks.vocabquest.core.collection
 
 import com.jworks.vocabquest.core.domain.model.CollectedWord
+import com.jworks.vocabquest.core.domain.model.EarnTriggers
+import com.jworks.vocabquest.core.domain.model.LOCAL_USER_ID
 import com.jworks.vocabquest.core.domain.model.Rarity
 import com.jworks.vocabquest.core.domain.model.Word
 import com.jworks.vocabquest.core.domain.repository.CollectionRepository
+import com.jworks.vocabquest.core.domain.repository.JCoinRepository
 import com.jworks.vocabquest.core.domain.repository.VocabRepository
 import kotlin.random.Random
 
@@ -14,7 +17,8 @@ data class EncounterResult(
 
 class WordEncounterEngine(
     private val collectionRepository: CollectionRepository,
-    private val vocabRepository: VocabRepository
+    private val vocabRepository: VocabRepository,
+    private val jCoinRepository: JCoinRepository? = null
 ) {
     // Pity counters: correct answers since last discovery per rarity
     private var pityCounts = mutableMapOf(
@@ -73,6 +77,9 @@ class WordEncounterEngine(
 
         // Add to collection
         collectionRepository.collect(item)
+
+        // Award J Coins for discovery
+        awardCollectionCoins(item)
 
         // Fetch the full word data for display
         val word = vocabRepository.getWordById(item.wordId)
@@ -187,6 +194,27 @@ class WordEncounterEngine(
         }
 
         return null
+    }
+
+    private suspend fun awardCollectionCoins(item: CollectedWord) {
+        val repo = jCoinRepository ?: return
+
+        // WORD_COLLECTED: 2 coins for any discovery
+        repo.earnCoins(LOCAL_USER_ID, EarnTriggers.WORD_COLLECTED, 2,
+            "Discovered a new word!")
+
+        // RARE_COLLECTED: 10 coins for Rare or higher
+        if (item.rarity.ordinal >= Rarity.RARE.ordinal) {
+            repo.earnCoins(LOCAL_USER_ID, EarnTriggers.RARE_COLLECTED, 10,
+                "Discovered a ${item.rarity.label} word!")
+        }
+
+        // COLLECTION_50: 75 coins milestone
+        val stats = collectionRepository.getStats()
+        if (stats.totalCollected == 50) {
+            repo.earnCoins(LOCAL_USER_ID, EarnTriggers.COLLECTION_50, 75,
+                "Collected 50 words!")
+        }
     }
 
     fun resetPity() {
