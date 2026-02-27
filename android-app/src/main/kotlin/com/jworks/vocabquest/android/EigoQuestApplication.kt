@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.jworks.vocabquest.android.workers.CoinSyncWorker
+import com.jworks.vocabquest.android.workers.ReceivedWordsSyncWorker
 import com.jworks.vocabquest.core.data.remote.SupabaseClientFactory
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
@@ -25,6 +26,7 @@ class EigoQuestApplication : Application(), Configuration.Provider {
 
         initializeSupabase()
         CoinSyncWorker.schedule(this)
+        ReceivedWordsSyncWorker.schedule(this)
     }
 
     private fun initializeSupabase() {

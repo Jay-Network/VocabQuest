@@ -112,6 +112,22 @@ class VocabRepositoryImpl(
         }.value
     }
 
+    override suspend fun findByWord(word: String): Word? = withContext(Dispatchers.Default) {
+        driver.executeQuery(
+            identifier = null,
+            sql = "SELECT id, word, definition, pos, cefr_level, frequency_rank, phonetic, audio_url FROM word WHERE word = ? COLLATE NOCASE LIMIT 1",
+            mapper = { cursor ->
+                val result = if (cursor.next().value) {
+                    cursorToWord(cursor)
+                } else null
+                QueryResult.Value(result)
+            },
+            parameters = 1
+        ) {
+            bindString(0, word)
+        }.value
+    }
+
     override suspend fun getTotalWordCount(): Int = withContext(Dispatchers.Default) {
         driver.executeQuery(
             identifier = null,

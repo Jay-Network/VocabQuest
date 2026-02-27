@@ -39,6 +39,10 @@
 | Subscription tiers (FREE/PREMIUM) | DONE |
 | Feature gating | DONE |
 | Feedback system (FAB + FCM) | DONE |
+| **Cross-App** | |
+| Received words (EigoLens → EigoQuest) | IN PROGRESS |
+| Supabase pull sync worker | DONE |
+| Word mastery J Coin trigger | DONE |
 | **Backend** | |
 | Supabase edge functions | DONE |
 | Stripe integration (live mode) | DONE |
@@ -57,22 +61,30 @@
 
 ## Current Sprint
 
-- **Current work**: Phase 2 planning — cross-app integration (EigoLens → EigoQuest received_words)
-- **Just completed (Phase 1)**:
+- **Current work**: Supabase pull sync worker built (uncommitted) — coordinating device ID sharing with jworks:46
+- **Just completed (Phase 2)**:
+  - received_words SQLDelight schema + ReceivedWordsRepository (f2889c3)
+  - CheckWordMasteryUseCase — fires eigoquest_word_mastered on SRS graduation (f2889c3)
+  - ReceivedWordsSyncWorker — pulls from eq_received_words every 15 min via WorkManager
+  - DeviceIdProvider — UUID in SharedPreferences for cross-app identity
+  - VocabRepository.findByWord() — case-insensitive lookup for linking received words
+- **Phase 1 completed**:
   - Fixed source_business 'vocabquest' → 'eigoquests' in JCoin.sq (a3a9d42)
   - Committed Collection feature: gacha, encounter engine, 3-col UI (a9cdf32)
   - Wired 16 J Coin earn triggers with EarnTriggers constants (b5c7643)
-  - Rarity colors verified matching KanjiQuest (#9E9E9E, #4CAF50, #2196F3, #9C27B0, #FFD700)
-- **Next**: received_words table for EigoLens integration, visual assets, device testing
+- **Next**: Settle device ID sharing with EigoLens, commit sync worker, visual assets, device testing
 - **Blockers**:
   - Feature graphic + screenshots (waiting on jayhub:31 Vision agent)
   - APK size investigation (3.2MB seems too small — audio may not be bundled)
+  - Device ID sharing approach (coordinating with jworks:46)
 - **Resolved**:
   - ~~Privacy policy~~ — deployed at jworks-ai.com/apps/vocabquest/privacy (Feb 20)
   - ~~4 critical bugs~~ — fixed in commit f03afd6 (Feb 20)
   - ~~Collection feature~~ — committed a9cdf32 (Feb 27)
   - ~~J Coin source_business~~ — fixed a3a9d42 (Feb 27)
   - ~~Earn triggers~~ — 16 triggers wired b5c7643 (Feb 27)
+  - ~~received_words schema~~ — committed f2889c3 (Feb 27)
+  - ~~CheckWordMasteryUseCase~~ — committed f2889c3 (Feb 27)
 
 ---
 

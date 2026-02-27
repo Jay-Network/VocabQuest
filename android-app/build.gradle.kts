@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -121,14 +122,18 @@ dependencies {
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
 
-    // kotlinx-datetime
+    // kotlinx-datetime & serialization
     implementation(libs.kotlinx.datetime)
+    implementation(libs.kotlinx.serialization.json)
 
     // Firebase Cloud Messaging for feedback push notifications (plugin disabled until google-services.json added)
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     implementation("com.google.firebase:firebase-messaging-ktx")
 
-    // WorkManager for background J Coin sync
+    // Supabase (for received words sync worker)
+    implementation(libs.supabase.postgrest.kt)
+
+    // WorkManager for background sync
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.androidx.hilt.work)
     ksp(libs.hilt.compiler)
