@@ -15,7 +15,7 @@ CREATE TABLE coin_sync_queue (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     user_id TEXT NOT NULL,
     event_type TEXT NOT NULL,
-    source_business TEXT NOT NULL DEFAULT 'vocabquest',
+    source_business TEXT NOT NULL DEFAULT 'eigoquests',
     source_type TEXT NOT NULL,
     base_amount INTEGER NOT NULL,
     description TEXT NOT NULL,
@@ -90,7 +90,7 @@ WHERE sync_status IN ('pending', 'failed');
 
 insertSyncEvent:
 INSERT INTO coin_sync_queue(user_id, event_type, source_business, source_type, base_amount, description, metadata, created_at, sync_status)
-VALUES (?, ?, 'vocabquest', ?, ?, ?, ?, ?, 'pending');
+VALUES (?, ?, 'eigoquests', ?, ?, ?, ?, ?, 'pending');
 
 updateSyncStatus:
 UPDATE coin_sync_queue SET
