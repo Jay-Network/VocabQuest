@@ -1,7 +1,7 @@
-# EigoQuest ProGuard Rules
+# EigoJourney ProGuard Rules
 
 # Keep SQLDelight generated code
--keep class com.jworks.vocabquest.db.** { *; }
+-keep class com.jworks.eigojourney.db.** { *; }
 
 # Keep Hilt generated code
 -keep class dagger.hilt.** { *; }
@@ -16,11 +16,11 @@
 -keepclasseswithmembers class kotlinx.serialization.json.** {
     kotlinx.serialization.KSerializer serializer(...);
 }
--keep,includedescriptorclasses class com.jworks.vocabquest.**$$serializer { *; }
--keepclassmembers class com.jworks.vocabquest.** {
+-keep,includedescriptorclasses class com.jworks.eigojourney.**$$serializer { *; }
+-keepclassmembers class com.jworks.eigojourney.** {
     *** Companion;
 }
--keepclasseswithmembers class com.jworks.vocabquest.** {
+-keepclasseswithmembers class com.jworks.eigojourney.** {
     kotlinx.serialization.KSerializer serializer(...);
 }
 

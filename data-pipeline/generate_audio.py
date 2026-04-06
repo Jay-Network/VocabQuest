@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EigoQuest Audio Generator
+EigoJourney Audio Generator
 
 Generates OGG Vorbis pronunciation audio for all words in the vocabulary database
 using Microsoft Edge TTS (neural voices, free).
@@ -38,7 +38,7 @@ import edge_tts
 # Constants
 # ---------------------------------------------------------------------------
 
-DEFAULT_DB = "../shared-core/src/commonMain/resources/vocabquest.db"
+DEFAULT_DB = "../shared-core/src/commonMain/resources/eigojourney.db"
 DEFAULT_OUTPUT_DIR = "../shared-core/src/commonMain/resources/audio"
 DEFAULT_VOICE = "en-US-AndrewNeural"
 DEFAULT_WORKERS = 10
@@ -49,7 +49,7 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(message)s",
     datefmt="%H:%M:%S",
 )
-log = logging.getLogger("vocabquest-audio")
+log = logging.getLogger("eigojourney-audio")
 
 
 # ---------------------------------------------------------------------------
@@ -205,7 +205,7 @@ def verify_audio(output_dir: Path, expected_count: int) -> dict:
 def print_report(stats: dict):
     """Print audio verification report."""
     print("\n" + "=" * 60)
-    print("EigoQuest Audio Verification Report")
+    print("EigoJourney Audio Verification Report")
     print("=" * 60)
     print(f"\nTotal audio files:   {stats['total_files']:,}")
     print(f"Expected files:      {stats['expected_files']:,}")
@@ -243,8 +243,8 @@ def print_report(stats: dict):
 # ---------------------------------------------------------------------------
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate pronunciation audio for EigoQuest")
-    parser.add_argument("--db", default=DEFAULT_DB, help="Path to vocabquest.db")
+    parser = argparse.ArgumentParser(description="Generate pronunciation audio for EigoJourney")
+    parser.add_argument("--db", default=DEFAULT_DB, help="Path to eigojourney.db")
     parser.add_argument("--output", "-o", default=DEFAULT_OUTPUT_DIR, help="Output directory for audio files")
     parser.add_argument("--voice", default=DEFAULT_VOICE, help=f"Edge TTS voice (default: {DEFAULT_VOICE})")
     parser.add_argument("--workers", "-w", type=int, default=DEFAULT_WORKERS, help="Concurrent workers")

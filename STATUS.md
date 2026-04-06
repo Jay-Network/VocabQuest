@@ -1,18 +1,18 @@
-# EigoQuest Development Tracker
+# EigoJourney Development Tracker
 
-> **Updated by**: jworks:45 (EigoQuest agent)
-> **Last updated**: 2026-02-27
+> **Updated by**: jworks:45 (EigoJourney agent)
+> **Last updated**: 2026-03-01
 
 ---
 
 ## Current Status
 
-- **Version**: 0.1.0 (versionCode 1)
+- **Version**: v0.2.0 (versionCode 2)
 - **Platform**: Android (Kotlin + Jetpack Compose, KMP structure)
-- **Package**: com.jworks.vocabquest (display name: EigoQuest)
+- **Package**: com.jworks.eigojourney (display name: EigoJourney)
 - **Build**: Passing
-- **Branch**: main (clean — all committed)
-- **Stage**: Pre-beta
+- **Branch**: main
+- **Stage**: Alpha (v0.x.x)
 
 ---
 
@@ -40,7 +40,7 @@
 | Feature gating | DONE |
 | Feedback system (FAB + FCM) | DONE |
 | **Cross-App** | |
-| Received words (EigoLens → EigoQuest) | IN PROGRESS |
+| Received words (EigoLens → EigoJourney) | IN PROGRESS |
 | Supabase pull sync worker | DONE |
 | Word mastery J Coin trigger | DONE |
 | **Backend** | |
@@ -64,12 +64,12 @@
 - **Current work**: Supabase pull sync worker built (uncommitted) — coordinating device ID sharing with jworks:46
 - **Just completed (Phase 2)**:
   - received_words SQLDelight schema + ReceivedWordsRepository (f2889c3)
-  - CheckWordMasteryUseCase — fires eigoquest_word_mastered on SRS graduation (f2889c3)
+  - CheckWordMasteryUseCase — fires eigojourney_word_mastered on SRS graduation (f2889c3)
   - ReceivedWordsSyncWorker — pulls from eq_received_words every 15 min via WorkManager
   - DeviceIdProvider — UUID in SharedPreferences for cross-app identity
   - VocabRepository.findByWord() — case-insensitive lookup for linking received words
 - **Phase 1 completed**:
-  - Fixed source_business 'vocabquest' → 'eigoquests' in JCoin.sq (a3a9d42)
+  - Fixed source_business 'eigojourney' → 'eigojourney' in JCoin.sq (a3a9d42)
   - Committed Collection feature: gacha, encounter engine, 3-col UI (a9cdf32)
   - Wired 16 J Coin earn triggers with EarnTriggers constants (b5c7643)
 - **Next**: Settle device ID sharing with EigoLens, commit sync worker, visual assets, device testing
@@ -78,7 +78,7 @@
   - APK size investigation (3.2MB seems too small — audio may not be bundled)
   - Device ID sharing approach (coordinating with jworks:46)
 - **Resolved**:
-  - ~~Privacy policy~~ — deployed at jworks-ai.com/apps/vocabquest/privacy (Feb 20)
+  - ~~Privacy policy~~ — deployed at jworks-ai.com/apps/eigojourney/privacy (Feb 20)
   - ~~4 critical bugs~~ — fixed in commit f03afd6 (Feb 20)
   - ~~Collection feature~~ — committed a9cdf32 (Feb 27)
   - ~~J Coin source_business~~ — fixed a3a9d42 (Feb 27)
@@ -116,12 +116,28 @@
 
 ---
 
+## Version History
+
+| Version | Date | Highlights |
+|---------|------|-----------|
+| v0.2.1 | 2026-03-01 | EigoQuest → EigoJourney rename, glass UI theme |
+| v0.2.0 | 2026-02-27 | Collection system, 16 J Coin triggers, cross-app received_words |
+| v0.1.2 | 2026-02-22 | VocabQuest → EigoQuest display rebrand |
+| v0.1.1 | 2026-02-20 | 4 critical bug fixes, feedback system, privacy policy |
+| v0.1.0 | 2026-02-09 | Full app infrastructure, subscription, Stripe, signing |
+| v0.0.1 | 2026-02-08 | Initial project structure, 10k vocab DB, audio files |
+
+See `CHANGELOG.md` for full details.
+
+---
+
 ## Milestones
 
 1. ~~Collection feature~~ — DONE (a9cdf32)
 2. ~~J Coin earn triggers~~ — DONE (b5c7643)
-3. Cross-app received_words (EigoLens integration)
-4. Visual assets delivery
-5. Device testing on real hardware
-6. v0.2.0 closed beta
-7. v1.0.0 production release
+3. ~~EigoJourney rename + glass UI~~ — DONE (v0.2.1)
+4. Cross-app received_words (EigoSage integration)
+5. Visual assets delivery
+6. Device testing on real hardware
+7. v1.0.0 beta release
+8. v2.0.0 store release

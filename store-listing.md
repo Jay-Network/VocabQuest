@@ -1,13 +1,13 @@
-# EigoQuest - Google Play Store Listing
+# EigoJourney - Google Play Store Listing
 
 ## Short Description (80 chars max)
 Master English vocabulary with SRS flashcards, quizzes, and gamified learning.
 
 ## Full Description (4000 chars max)
 
-EigoQuest is a vocabulary learning app designed for ESL students and language learners who want to build a strong English word bank — fast.
+EigoJourney is a vocabulary learning app designed for ESL students and language learners who want to build a strong English word bank — fast.
 
-With 10,000 carefully curated words across CEFR levels A1 through C2, EigoQuest covers everything from everyday conversation to academic and professional vocabulary. Each word comes with real-world example sentences, pronunciation audio, and part-of-speech tagging so you learn words in context, not isolation.
+With 10,000 carefully curated words across CEFR levels A1 through C2, EigoJourney covers everything from everyday conversation to academic and professional vocabulary. Each word comes with real-world example sentences, pronunciation audio, and part-of-speech tagging so you learn words in context, not isolation.
 
 LEARN YOUR WAY
 - Flashcard Mode: Classic spaced repetition powered by the SM-2 algorithm. Cards appear right when you're about to forget them.
@@ -15,7 +15,7 @@ LEARN YOUR WAY
 - Word of the Day: A fresh word on your home screen every day to keep your momentum going.
 
 SMART REVIEW SYSTEM
-EigoQuest uses scientifically-backed spaced repetition to schedule your reviews. New words are introduced gradually and reviewed at optimal intervals — so you remember more with less effort. Track your mastery across all six CEFR levels and watch your progress grow.
+EigoJourney uses scientifically-backed spaced repetition to schedule your reviews. New words are introduced gradually and reviewed at optimal intervals — so you remember more with less effort. Track your mastery across all six CEFR levels and watch your progress grow.
 
 GAMIFIED LEARNING
 - Earn J Coins for correct answers and streaks
@@ -38,7 +38,7 @@ Upgrade to Premium to unlock the full experience:
 - J Coin earning and Shop access
 - Full audio pronunciation library
 
-EigoQuest is built by JWorks, a small team passionate about making language learning effective and enjoyable. Whether you're preparing for TOEFL, expanding your academic vocabulary, or just building everyday fluency — EigoQuest has you covered.
+EigoJourney is built by JWorks, a small team passionate about making language learning effective and enjoyable. Whether you're preparing for TOEFL, expanding your academic vocabulary, or just building everyday fluency — EigoJourney has you covered.
 
 Download now and start your Eigo quest today. ("Eigo" means "English" in Japanese!)
 

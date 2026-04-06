@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-EigoQuest Vocabulary Database Generator
+EigoJourney Vocabulary Database Generator
 
-Generates a SQLite database with 10,000 English words for the EigoQuest app.
+Generates a SQLite database with 10,000 English words for the EigoJourney app.
 
 Sources:
   - NLTK WordNet: definitions, examples, synonyms/antonyms
@@ -14,7 +14,7 @@ Usage:
     cd data-pipeline
     source venv/bin/activate
     python generate_vocab_db.py
-    python generate_vocab_db.py --output ../shared-core/src/commonMain/resources/vocabquest.db
+    python generate_vocab_db.py --output ../shared-core/src/commonMain/resources/eigojourney.db
     python generate_vocab_db.py --enrich-api    # Also fetch from Free Dictionary API
     python generate_vocab_db.py --count 5000    # Generate fewer words for testing
 
@@ -41,7 +41,7 @@ from nltk.corpus import brown, cmudict, wordnet
 # Constants
 # ---------------------------------------------------------------------------
 
-DEFAULT_OUTPUT = "../shared-core/src/commonMain/resources/vocabquest.db"
+DEFAULT_OUTPUT = "../shared-core/src/commonMain/resources/eigojourney.db"
 DEFAULT_WORD_COUNT = 10000
 MIN_WORD_LENGTH = 2
 MAX_WORD_LENGTH = 25
@@ -98,7 +98,7 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(message)s",
     datefmt="%H:%M:%S",
 )
-log = logging.getLogger("vocabquest")
+log = logging.getLogger("eigojourney")
 
 
 # ---------------------------------------------------------------------------
@@ -629,7 +629,7 @@ def verify_database(db_path: Path) -> dict:
 def print_report(stats: dict):
     """Print a formatted verification report."""
     print("\n" + "=" * 70)
-    print("EigoQuest Database Verification Report")
+    print("EigoJourney Database Verification Report")
     print("=" * 70)
 
     print(f"\nTotal words:           {stats['total_words']:,}")
@@ -695,7 +695,7 @@ def print_report(stats: dict):
 # ---------------------------------------------------------------------------
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate EigoQuest vocabulary database")
+    parser = argparse.ArgumentParser(description="Generate EigoJourney vocabulary database")
     parser.add_argument(
         "--output", "-o",
         default=DEFAULT_OUTPUT,
@@ -738,7 +738,7 @@ def main():
 
     start_time = time.time()
     log.info("=" * 50)
-    log.info("EigoQuest Vocabulary Database Generator")
+    log.info("EigoJourney Vocabulary Database Generator")
     log.info("=" * 50)
 
     # Phase 1: Load data sources

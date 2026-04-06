@@ -10,15 +10,15 @@ plugins {
 }
 
 android {
-    namespace = "com.jworks.vocabquest.android"
+    namespace = "com.jworks.eigojourney.android"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.jworks.vocabquest"
+        applicationId = "com.jworks.eigojourney"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = 2
+        versionName = "0.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -43,6 +43,11 @@ android {
             "SUPABASE_ANON_KEY",
             "\"${localProperties.getProperty("SUPABASE_ANON_KEY", "")}\""
         )
+        buildConfigField(
+            "String",
+            "JCOIN_APP_KEY",
+            "\"${localProperties.getProperty("JCOIN_APP_KEY", "")}\""
+        )
     }
 
     signingConfigs {
@@ -51,9 +56,9 @@ android {
             val localProperties = Properties().apply {
                 if (localPropertiesFile.exists()) load(localPropertiesFile.inputStream())
             }
-            storeFile = file(localProperties.getProperty("RELEASE_STORE_FILE", "../keystore/vocabquest-release.jks"))
+            storeFile = file(localProperties.getProperty("RELEASE_STORE_FILE", "../keystore/eigojourney-release.jks"))
             storePassword = localProperties.getProperty("RELEASE_STORE_PASSWORD", "")
-            keyAlias = localProperties.getProperty("RELEASE_KEY_ALIAS", "vocabquest")
+            keyAlias = localProperties.getProperty("RELEASE_KEY_ALIAS", "eigojourney")
             keyPassword = localProperties.getProperty("RELEASE_KEY_PASSWORD", "")
             enableV1Signing = true
             enableV2Signing = true
@@ -92,6 +97,11 @@ android {
             excludes += "/META-INF/LICENSE.md"
         }
     }
+
+    sourceSets["main"].assets.srcDirs(
+        "src/main/assets",
+        "${project(":shared-core").projectDir}/src/commonMain/resources"
+    )
 }
 
 dependencies {

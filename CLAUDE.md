@@ -1,27 +1,31 @@
-# EigoQuest - Claude Code Agent Instructions
+# EigoJourney - Claude Code Agent Instructions
 
-**Project**: EigoQuest (formerly VocabQuest) - English Vocabulary Learning App
+**Project**: EigoJourney (formerly EigoQuest, originally VocabQuest) - English Vocabulary Learning App
 **Owner**: JWorks (Jay's Technology & Manufacturing Business)
 **Created**: 2026-02-08
-**Status**: Initial Setup
+**Current Version**: v0.2.0 (Alpha)
+**Status**: Active Development
 
 ---
 
 ## Project Overview
 
-EigoQuest ("Eigo" = English in Japanese) is an English vocabulary learning app designed for ESL students and language learners. It provides gamified vocabulary building with spaced repetition, context-based learning, and progress tracking.
+EigoJourney ("Eigo" = English in Japanese) is an English vocabulary learning app designed for ESL students and language learners. It provides gamified vocabulary building with spaced repetition, context-based learning, and progress tracking.
 
-**Core Value**: Unlike traditional flashcard apps, EigoQuest uses game mechanics and real-world context to make vocabulary acquisition engaging and effective.
+**Core Value**: Unlike traditional flashcard apps, EigoJourney uses game mechanics and real-world context to make vocabulary acquisition engaging and effective.
 
-**Brand Family**: KanjiLens + KanjiQuest (Japanese learning) / EigoLens + EigoQuest (English learning) — all connected via J Coin economy.
+**Brand Family** (Jay Network App Ecosystem):
+- **SAGE** = scan + AI dialog apps (replaces "Lens"): KanjiSage, EigoSage
+- **JOURNEY** = mastery + gamification apps (replaces "Quest"): KanjiJourney, EigoJourney
+- All connected via J Coin cross-app economy
 
 ---
 
 ## Key Documents
 
 **Development Resources**:
-1. `/home/takuma/1_jworks/A_ai/4_Apps/VocabQuest/README.md` - Project overview and status (if exists)
-2. Source code: `/home/takuma/Data_ubuntu/GitHub/Jay-Network/apps/VocabQuest/`
+1. `/home/takuma/1_jworks/A_ai/4_Apps/EigoJourney/README.md` - Project overview and status (if exists)
+2. Source code: `/home/takuma/Data_ubuntu/GitHub/Jay-Network/apps/EigoJourney/`
 
 ---
 
@@ -55,10 +59,10 @@ EigoQuest ("Eigo" = English in Japanese) is an English vocabulary learning app d
 ## Directory Structure
 
 ### Agent Workspace (This Directory)
-**Location**: `/home/takuma/1_jworks/A_ai/4_Apps/VocabQuest/`
+**Location**: `/home/takuma/1_jworks/A_ai/4_Apps/EigoJourney/`
 
 ```
-~/1_jworks/A_ai/4_Apps/VocabQuest/
+~/1_jworks/A_ai/4_Apps/EigoJourney/
 ├── README.md              # Project overview
 ├── CLAUDE.md              # This file (agent instructions)
 ├── STATUS.md              # Project status tracker
@@ -67,13 +71,13 @@ EigoQuest ("Eigo" = English in Japanese) is an English vocabulary learning app d
 ```
 
 ### Android App Project (GitHub Repository)
-**Location**: `/home/takuma/Data_ubuntu/GitHub/Jay-Network/apps/VocabQuest/`
+**Location**: `/home/takuma/Data_ubuntu/GitHub/Jay-Network/apps/EigoJourney/`
 
 ```
-~/Data_ubuntu/GitHub/Jay-Network/apps/VocabQuest/
+~/Data_ubuntu/GitHub/Jay-Network/apps/EigoJourney/
 ├── app/                   # Main Android module
 │   ├── src/main/
-│   │   ├── java/com/jworks/vocabquest/
+│   │   ├── java/com/jworks/eigojourney/
 │   │   │   ├── MainActivity.kt
 │   │   │   ├── domain/    # Business logic
 │   │   │   ├── data/      # Data layer
@@ -86,7 +90,7 @@ EigoQuest ("Eigo" = English in Japanese) is an English vocabulary learning app d
 
 **IMPORTANT**: When working on Android code, change to the GitHub directory:
 ```bash
-cd ~/Data_ubuntu/GitHub/Jay-Network/apps/VocabQuest/
+cd ~/Data_ubuntu/GitHub/Jay-Network/apps/EigoJourney/
 ```
 
 ---
@@ -125,14 +129,50 @@ cd ~/Data_ubuntu/GitHub/Jay-Network/apps/VocabQuest/
 
 ---
 
+## Versioning (MANDATORY)
+
+Format: **vMAJOR.MINOR.PATCH** (e.g. v1.2.3)
+
+- **PATCH** (last digit): Every deployed change (bug fix, tweak, any update)
+- **MINOR** (middle digit): Major feature addition (resets PATCH to 0)
+- **MAJOR** (first digit): Release stage transition (resets MINOR and PATCH to 0)
+  - v0.x.x = Alpha
+  - v1.x.x = Beta
+  - v2.x.x = Store release (production)
+
+Rules:
+1. Always prefix with 'v' (v1.2.3, not 1.2.3)
+2. Git tags must match (v0.2.0)
+3. STATUS.md must always show current version
+4. Every deploy = at least a PATCH increment
+
+Full spec: `~/1_jworks/A_ai/4_Apps/VERSIONING.md`
+
+---
+
+## Brand Naming System
+
+| Suffix | Role | Replaces |
+|--------|------|----------|
+| **SAGE** | Scan + AI dialog | Lens |
+| **JOURNEY** | Mastery + gamification | Quest |
+
+Full 2x2 matrix:
+| | Scan + AI Dialog | Mastery + Gamification |
+|---|---|---|
+| **Eigo** (English) | EigoSage (jworks:46) | EigoJourney (jworks:45) |
+| **Kanji** (Japanese) | KanjiSage (jworks:43) | KanjiJourney (jworks:44) |
+
+---
+
 ## Sub-Agent Information
 
-**Identity**: [Claude-JWorks | EigoQuest-Dev] (jworks:45)
-**Launcher**: `claude-jworks-vocabquest`
-**Working Directory**: `/home/takuma/1_jworks/A_ai/4_Apps/VocabQuest/`
+**Identity**: [Claude-JWorks | EigoJourney-Dev] (jworks:45)
+**Launcher**: `claude-jworks-eigojourney`
+**Working Directory**: `/home/takuma/1_jworks/A_ai/4_Apps/EigoJourney/`
 **tmux Window**: jworks:45
 
-**Purpose**: Dedicated Android development agent for EigoQuest project
+**Purpose**: Dedicated Android development agent for EigoJourney project
 
 **Parent Agent**: Window 42 (Apps Division) - `jworks:42`
 
@@ -148,10 +188,10 @@ cd ~/Data_ubuntu/GitHub/Jay-Network/apps/VocabQuest/
 
 ### Strategic Value
 
-EigoQuest is part of JWorks' **educational app portfolio**:
+EigoJourney is part of JWorks' **educational app portfolio**:
 1. Complements TutoringJay curriculum
 2. Shares tech foundation with KanjiQuest (gamified learning)
-3. Brand family: KanjiLens + KanjiQuest / EigoLens + EigoQuest
+3. Brand family: KanjiLens + KanjiQuest / EigoLens + EigoJourney
 4. Potential B2B licensing to language schools
 5. Data insights for TutoringJay teaching methods
 
@@ -160,13 +200,14 @@ EigoQuest is part of JWorks' **educational app portfolio**:
 ## Related Projects
 
 **Sibling Apps**:
-- **KanjiQuest** (jworks:44) - Japanese kanji learning (gamified)
-- **KanjiLens** (jworks:43) - Japanese reading assistant (camera-based)
-- **EigoLens** (jworks:46) - English text analyzer (camera-based)
+- **KanjiJourney** (jworks:44) - Japanese kanji mastery (gamified SRS)
+- **KanjiSage** (jworks:43) - Japanese reading assistant (scan + AI dialog)
+- **EigoSage** (jworks:46) - English text analyzer (scan + AI dialog)
 
 **Technology Sharing**:
-- Gamification engine (shared with KanjiQuest)
+- Gamification engine (shared with KanjiJourney)
 - Spaced repetition algorithm (shared across all learning apps)
+- J Coin economy (cross-app rewards)
 - TutoringJay curriculum integration
 
 ---
@@ -191,6 +232,7 @@ EigoQuest is part of JWorks' **educational app portfolio**:
 
 ---
 
-**Last Updated**: 2026-02-21
-**Status**: ~85% complete, renamed from VocabQuest to EigoQuest
-**Next Milestone**: Store readiness and production release
+**Last Updated**: 2026-03-01
+**Version**: v0.2.0 (Alpha)
+**Status**: Active development — glass UI, J Coin unified API, brand rename complete
+**Next Milestone**: Beta (v1.0.0) and store release (v2.0.0)

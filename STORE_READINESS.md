@@ -1,6 +1,6 @@
-# EigoQuest - Store Readiness Checklist
+# EigoJourney - Store Readiness Checklist
 
-**App**: EigoQuest (com.jworks.vocabquest)
+**App**: EigoJourney (com.jworks.eigojourney)
 **Version**: 0.1.0 (versionCode 1)
 **Last Updated**: 2026-02-20
 **Status**: Internal Testing on Google Play Console
@@ -31,7 +31,7 @@
 ### Policies & Compliance
 | Item | Status | Details |
 |------|--------|---------|
-| Privacy policy URL | DONE | https://jworks-ai.com/apps/vocabquest/privacy (code added, needs deploy) |
+| Privacy policy URL | DONE | https://jworks-ai.com/apps/eigojourney/privacy (code added, needs deploy) |
 | Content rating questionnaire | READY | Answers prepared in `store-listing.md` |
 | Target audience (13+) | READY | Not directed at children under 13 |
 | Data safety form | TODO | Needs to be filled in Play Console |
@@ -85,7 +85,7 @@
 
 ## Remaining TODO for Store Launch
 1. **Visual assets from jayhub:31** — feature graphic + screenshots
-2. **Deploy privacy policy** — jworks-ai.com site needs rebuild with EigoQuest privacy page
+2. **Deploy privacy policy** — jworks-ai.com site needs rebuild with EigoJourney privacy page
 3. **Data safety form** — fill in Play Console (manual step)
 4. **APK size investigation** — 3.2MB seems too small (audio files may not be bundled)
 5. **Device testing** — test on real device + multiple screen sizes

@@ -1,6 +1,6 @@
-# EigoQuest Data Pipeline
+# EigoJourney Data Pipeline
 
-Generates a SQLite database with 10,000 English vocabulary words for the EigoQuest app.
+Generates a SQLite database with 10,000 English vocabulary words for the EigoJourney app.
 
 ## Data Sources
 
@@ -32,12 +32,12 @@ source venv/bin/activate
 python generate_vocab_db.py
 ```
 
-Output: `../shared-core/src/commonMain/resources/vocabquest.db`
+Output: `../shared-core/src/commonMain/resources/eigojourney.db`
 
 ### Custom output path
 
 ```bash
-python generate_vocab_db.py --output /path/to/vocabquest.db
+python generate_vocab_db.py --output /path/to/eigojourney.db
 ```
 
 ### Generate smaller database (for testing)

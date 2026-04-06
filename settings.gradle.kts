@@ -14,7 +14,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "EigoQuest"
+rootProject.name = "EigoJourney"
 
 include(":shared-core")
 include(":android-app")

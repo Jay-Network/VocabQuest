@@ -50,7 +50,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.jworks.vocabquest.core"
+    namespace = "com.jworks.eigojourney.core"
     compileSdk = 35
 
     defaultConfig {
@@ -65,8 +65,8 @@ android {
 
 sqldelight {
     databases {
-        create("EigoQuestDatabase") {
-            packageName.set("com.jworks.vocabquest.db")
+        create("EigoJourneyDatabase") {
+            packageName.set("com.jworks.eigojourney.db")
             dialect("app.cash.sqldelight:sqlite-3-38-dialect:${libs.versions.sqldelight.get()}")
         }
     }

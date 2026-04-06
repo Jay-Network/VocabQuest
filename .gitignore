@@ -30,3 +30,9 @@ Thumbs.db
 
 # Verification artifacts
 data-pipeline/verification_report.json
+
+# Claude Code worktree isolation
+.claude/worktrees/
+
+# Generated vocabulary resources (audio + db)
+shared-core/src/commonMain/resources/
