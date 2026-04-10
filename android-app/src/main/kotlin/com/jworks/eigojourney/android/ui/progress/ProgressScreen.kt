@@ -248,7 +248,7 @@ private fun WeeklyActivityCard(stats: List<DailyStatsData>) {
                 stats.forEach { day ->
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.width(36.dp)
+                        modifier = Modifier.weight(1f)
                     ) {
                         Text(
                             text = "${day.cardsReviewed}",
@@ -261,7 +261,7 @@ private fun WeeklyActivityCard(stats: List<DailyStatsData>) {
                         else 4f
                         Box(
                             modifier = Modifier
-                                .width(24.dp)
+                                .width(20.dp)
                                 .height(barHeight.dp)
                                 .clip(RoundedCornerShape(4.dp))
                                 .background(

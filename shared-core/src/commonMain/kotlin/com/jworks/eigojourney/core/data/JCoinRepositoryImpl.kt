@@ -129,6 +129,7 @@ class JCoinRepositoryImpl(
                     put("source_business", event.source_business)
                     put("source_type", event.source_type)
                     put("base_amount", event.base_amount)
+                    put("metadata", event.metadata)
                     if (event.event_type == "spend") {
                         put("mode", "direct")
                         put("amount", event.base_amount)
@@ -223,17 +224,24 @@ class JCoinRepositoryImpl(
                     }
                 }
 
-                // Check balance
                 queries.initializeBalance(userId)
-                val balance = queries.getBalance(userId).executeAsOneOrNull()
-                    ?: return@withContext PurchaseResult.Error("Failed to get balance")
 
-                if (balance.local_balance < item.cost * 1000L) {
-                    return@withContext PurchaseResult.InsufficientFunds(item.cost, balance.local_balance / 1000)
-                }
-
-                // Deduct coins
+                // Balance check + deduct inside a single transaction to prevent TOCTOU race
+                var insufficientFunds = false
+                var insufficientRequired = 0
+                var insufficientAvailable = 0L
                 queries.transaction {
+                    val balance = queries.getBalance(userId).executeAsOneOrNull()
+                        ?: throw IllegalStateException("Failed to get balance")
+
+                    if (balance.local_balance < item.cost * 1000L) {
+                        insufficientFunds = true
+                        insufficientRequired = item.cost
+                        insufficientAvailable = balance.local_balance / 1000
+                        rollback()
+                        return@transaction
+                    }
+
                     queries.addToBalance(
                         local_balance = -(item.cost.toLong() * 1000),
                         lifetime_earned = 0,
@@ -276,6 +284,10 @@ class JCoinRepositoryImpl(
                         metadata = """{"item_id":"${item.id}","category":"${item.category.name}"}""",
                         created_at = clock.now().epochSeconds
                     )
+                }
+
+                if (insufficientFunds) {
+                    return@withContext PurchaseResult.InsufficientFunds(insufficientRequired, insufficientAvailable)
                 }
 
                 val newBalance = queries.getBalance(userId).executeAsOneOrNull()

@@ -1,13 +1,13 @@
 # EigoJourney Development Tracker
 
 > **Updated by**: jworks:45 (EigoJourney agent)
-> **Last updated**: 2026-03-01
+> **Last updated**: 2026-04-09
 
 ---
 
 ## Current Status
 
-- **Version**: v0.2.0 (versionCode 2)
+- **Version**: v0.2.2 (versionCode 4)
 - **Platform**: Android (Kotlin + Jetpack Compose, KMP structure)
 - **Package**: com.jworks.eigojourney (display name: EigoJourney)
 - **Build**: Passing
@@ -61,23 +61,18 @@
 
 ## Current Sprint
 
-- **Current work**: Supabase pull sync worker built (uncommitted) — coordinating device ID sharing with jworks:46
-- **Just completed (Phase 2)**:
-  - received_words SQLDelight schema + ReceivedWordsRepository (f2889c3)
-  - CheckWordMasteryUseCase — fires eigojourney_word_mastered on SRS graduation (f2889c3)
-  - ReceivedWordsSyncWorker — pulls from eq_received_words every 15 min via WorkManager
-  - DeviceIdProvider — UUID in SharedPreferences for cross-app identity
-  - VocabRepository.findByWord() — case-insensitive lookup for linking received words
-- **Phase 1 completed**:
-  - Fixed source_business 'eigojourney' → 'eigojourney' in JCoin.sq (a3a9d42)
-  - Committed Collection feature: gacha, encounter engine, 3-col UI (a9cdf32)
-  - Wired 16 J Coin earn triggers with EarnTriggers constants (b5c7643)
-- **Next**: Settle device ID sharing with EigoLens, commit sync worker, visual assets, device testing
+- **Current work**: All 8 medium-priority bugs fixed (v0.2.2)
+- **Just completed**:
+  - Fixed 8 medium-priority bugs: observeBalance error handling, SubscriptionViewModel reactive Flow, purchaseItem TOCTOU race, sync metadata forwarding, Settings/WordDetail nav routes, WeeklyActivityCard responsive layout, user-friendly offline error, FAB overlap fix
+  - Brand rename VocabQuest → EigoJourney committed (350bc37)
+- **Next**: Word Context Generator (Gemini dual-agent), Study Recommendations engine, cross-app word transfer
 - **Blockers**:
   - Feature graphic + screenshots (waiting on jayhub:31 Vision agent)
   - APK size investigation (3.2MB seems too small — audio may not be bundled)
-  - Device ID sharing approach (coordinating with jworks:46)
+  - Cross-app word transfer (coordinating device ID with jworks:46)
 - **Resolved**:
+  - ~~8 medium-priority bugs~~ — all fixed v0.2.2 (Apr 9)
+  - ~~Brand rename~~ — VocabQuest → EigoJourney + glass UI (350bc37, Apr 6)
   - ~~Privacy policy~~ — deployed at jworks-ai.com/apps/eigojourney/privacy (Feb 20)
   - ~~4 critical bugs~~ — fixed in commit f03afd6 (Feb 20)
   - ~~Collection feature~~ — committed a9cdf32 (Feb 27)
@@ -120,6 +115,7 @@
 
 | Version | Date | Highlights |
 |---------|------|-----------|
+| v0.2.2 | 2026-04-09 | 8 medium-priority bug fixes (beta readiness) |
 | v0.2.1 | 2026-03-01 | EigoQuest → EigoJourney rename, glass UI theme |
 | v0.2.0 | 2026-02-27 | Collection system, 16 J Coin triggers, cross-app received_words |
 | v0.1.2 | 2026-02-22 | VocabQuest → EigoQuest display rebrand |
@@ -136,8 +132,9 @@ See `CHANGELOG.md` for full details.
 1. ~~Collection feature~~ — DONE (a9cdf32)
 2. ~~J Coin earn triggers~~ — DONE (b5c7643)
 3. ~~EigoJourney rename + glass UI~~ — DONE (v0.2.1)
-4. Cross-app received_words (EigoSage integration)
-5. Visual assets delivery
-6. Device testing on real hardware
-7. v1.0.0 beta release
-8. v2.0.0 store release
+4. ~~8 medium-priority bug fixes~~ — DONE (v0.2.2)
+5. Cross-app received_words (EigoSage integration)
+6. Visual assets delivery
+7. Device testing on real hardware
+8. v1.0.0 beta release
+9. v2.0.0 store release

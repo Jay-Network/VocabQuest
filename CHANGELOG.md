@@ -10,6 +10,18 @@ Single source of truth for version: `VERSION` file at repo root.
 
 _No unreleased changes._
 
+## v0.2.2 (2026-04-09)
+
+### Fixed
+- observeBalance() Flow in HomeViewModel and ShopViewModel now catches exceptions to prevent silent coroutine death on DB errors
+- SubscriptionViewModel now collects observeSubscription() Flow instead of one-shot getSubscription() for reactive plan updates
+- TOCTOU race condition in purchaseItem() — balance check moved inside SQLDelight transaction with rollback on insufficient funds
+- J Coin sync metadata now forwarded to Supabase edge functions in syncPendingEvents() body
+- Settings and WordDetail nav routes registered in EigoJourneyNavHost with placeholder screens
+- WeeklyActivityCard columns use weight(1f) instead of hardcoded 36dp width to prevent overflow on narrow screens
+- "Backend not configured" raw error replaced with user-friendly "Feedback is not available offline" message
+- FeedbackFAB only shows on Home screen to prevent overlap with sub-screen content
+
 ## v0.2.1 (2026-03-01)
 
 ### Changed

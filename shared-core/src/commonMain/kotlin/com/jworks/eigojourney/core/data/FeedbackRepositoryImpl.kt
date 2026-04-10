@@ -34,7 +34,7 @@ class FeedbackRepositoryImpl : FeedbackRepository {
         deviceInfo: Map<String, String>?
     ): SubmitFeedbackResult = withContext(Dispatchers.Default) {
         if (!SupabaseClientFactory.isInitialized()) {
-            return@withContext SubmitFeedbackResult.Error("Backend not configured")
+            return@withContext SubmitFeedbackResult.Error("Feedback is not available offline. Please try again later.")
         }
 
         try {

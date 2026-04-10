@@ -27,22 +27,26 @@ class SubscriptionViewModel @Inject constructor(
     val uiState: StateFlow<SubscriptionUiState> = _uiState.asStateFlow()
 
     init {
-        loadSubscription()
+        observeSubscription()
     }
 
-    private fun loadSubscription() {
+    private fun observeSubscription() {
         viewModelScope.launch {
-            val subscription = subscriptionRepository.getSubscription()
-            _uiState.value = SubscriptionUiState(
-                isPremium = subscription.plan == SubscriptionPlan.PREMIUM,
-                subscription = subscription,
-                isLoading = false
-            )
+            subscriptionRepository.observeSubscription().collect { subscription ->
+                _uiState.value = SubscriptionUiState(
+                    isPremium = subscription.plan == SubscriptionPlan.PREMIUM,
+                    subscription = subscription,
+                    isLoading = false
+                )
+            }
         }
     }
 
     fun refresh() {
         _uiState.value = _uiState.value.copy(isLoading = true)
-        loadSubscription()
+        viewModelScope.launch {
+            // Force a re-read to update the flow
+            subscriptionRepository.getSubscription()
+        }
     }
 }

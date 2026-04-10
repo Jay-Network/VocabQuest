@@ -62,14 +62,7 @@
 | Supabase backend | DONE | Edge functions, app catalog, tiers registered |
 
 ### Known Medium-Priority Issues (non-blocking)
-1. `observeBalance()` Flow has no error handler — coroutine dies silently on DB error
-2. `SubscriptionViewModel` reads subscription once; doesn't collect Flow
-3. TOCTOU race in `purchaseItem()` — balance check outside transaction
-4. J Coin sync metadata sent as empty `{}` to Supabase
-5. `Settings` and `WordDetail` nav routes defined but not registered
-6. Hardcoded 36dp/24dp columns in WeeklyActivityCard may overflow on narrow screens
-7. "Backend not configured" error shown to user when Supabase is absent
-8. Nested Scaffolds cause FAB overlap on small screens
+All 8 issues resolved in v0.2.2 (2026-04-09). See BUGS.md for details.
 
 ---
 

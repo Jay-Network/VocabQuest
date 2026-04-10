@@ -64,10 +64,14 @@ class HomeViewModel @Inject constructor(
 
     private fun observeBalance() {
         viewModelScope.launch {
-            jCoinRepository.observeBalance(LOCAL_USER_ID).collect { balance ->
-                _uiState.value = _uiState.value.copy(
-                    coinBalance = balance.displayBalance
-                )
+            try {
+                jCoinRepository.observeBalance(LOCAL_USER_ID).collect { balance ->
+                    _uiState.value = _uiState.value.copy(
+                        coinBalance = balance.displayBalance
+                    )
+                }
+            } catch (_: Exception) {
+                // DB error — keep last known balance, don't crash the coroutine
             }
         }
     }
