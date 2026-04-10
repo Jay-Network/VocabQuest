@@ -40,6 +40,7 @@ fun HomeScreen(
     onProgressClick: () -> Unit,
     onSubscriptionClick: () -> Unit = {},
     onCollectionClick: () -> Unit = {},
+    onSettingsClick: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
@@ -246,6 +247,7 @@ fun HomeScreen(
                 ) {
                     ActionCard(title = "Shop", modifier = Modifier.weight(1f), onClick = onShopClick)
                     ActionCard(title = "Progress", modifier = Modifier.weight(1f), onClick = onProgressClick)
+                    ActionCard(title = "Settings", modifier = Modifier.weight(1f), onClick = onSettingsClick)
                 }
 
                 Spacer(modifier = Modifier.height(32.dp))

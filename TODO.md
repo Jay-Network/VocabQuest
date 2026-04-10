@@ -1,9 +1,7 @@
 # EigoJourney TODO
 
 ## Active Tasks
-- [ ] Commit v0.2.2 bug fixes (uncommitted from yesterday)
-- [ ] Build Settings screen (v0.4.0 roadmap — theme, notifications, daily goal)
-- [ ] Build Word Detail screen (v0.4.0 roadmap — word info, examples, audio, SRS history)
+(none)
 
 ## Backlog
 - Build Word Context Generator — Gemini dual-agent feature (TOP PRIORITY when resumed)
@@ -11,6 +9,9 @@
 - Cross-app word transfer from EigoSage (awaiting coordination)
 
 ## Completed
+- [x] Build Word Detail screen — full word info, SRS stats, examples (2026-04-10)
+- [x] Build Settings screen — daily goal, notifications, account info (2026-04-10)
+- [x] Commit v0.2.2 bug fixes (2026-04-10)
 - [x] Fix 8 medium-priority bugs — v0.2.2 (2026-04-09)
 - [x] Update STATUS.md to v0.2.2 and refresh sprint info (2026-04-09)
 - [x] Commit brand rename VocabQuest→EigoJourney + glass UI + docs (2026-04-06)

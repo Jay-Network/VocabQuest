@@ -52,6 +52,8 @@
 | ProGuard/R8 minification | DONE |
 | Store listing text (descriptions, keywords) | DONE |
 | Content rating questionnaire | DONE |
+| Settings screen (daily goal, notifications, account) | DONE |
+| Word Detail screen (info, SRS stats, examples) | DONE |
 | Feature graphic + screenshots | - |
 | Privacy policy deployed | DONE |
 

@@ -8,7 +8,13 @@ Single source of truth for version: `VERSION` file at repo root.
 
 ## [Unreleased]
 
-_No unreleased changes._
+### Added
+- SettingsScreen with daily goal slider (5-100 cards), study reminder toggle with time picker, subscription info, app version display
+- SettingsViewModel backed by UserRepository (daily goal) and SharedPreferences (notification prefs)
+- WordDetailScreen showing word header (phonetic, POS, CEFR, frequency rank), definition, SRS study progress (status, accuracy, reviews, next review), example sentences
+- WordDetailViewModel using SavedStateHandle for wordId extraction, VocabRepository + SrsRepository
+- Settings button added to HomeScreen bottom action row
+- Navigation wired for Settings and WordDetail with real screens (replacing placeholders)
 
 ## v0.2.2 (2026-04-09)
 
