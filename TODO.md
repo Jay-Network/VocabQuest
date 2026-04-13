@@ -1,9 +1,10 @@
 # EigoJourney TODO
 
 ## Active Tasks
-- [ ] Investigate APK size (verify audio bundling — v0.3.0 blocker)
+(none)
 
 ## Backlog
+- [backlog] Investigate APK size (build running in background — verify audio+db bundled in APK)
 - [backlog] Build Word Context Generator — Gemini dual-agent feature (TOP PRIORITY when resumed)
 - [backlog] Build Study Recommendations engine (NEXT PRIORITY when resumed)
 - [backlog] Cross-app word transfer from EigoSage (awaiting coordination)
