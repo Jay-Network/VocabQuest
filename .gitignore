@@ -36,3 +36,8 @@ data-pipeline/verification_report.json
 
 # Generated vocabulary resources (audio + db)
 shared-core/src/commonMain/resources/
+
+# Agent infrastructure
+.agent-version
+.claude/
+.entire/
