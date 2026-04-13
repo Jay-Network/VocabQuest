@@ -4,12 +4,12 @@
 (none)
 
 ## Backlog
-- [backlog] Investigate APK size (build running in background — verify audio+db bundled in APK)
 - [backlog] Build Word Context Generator — Gemini dual-agent feature (TOP PRIORITY when resumed)
 - [backlog] Build Study Recommendations engine (NEXT PRIORITY when resumed)
 - [backlog] Cross-app word transfer from EigoSage (awaiting coordination)
 
 ## Completed
+- [x] Verify APK bundles audio+db (debug APK = 84MB, 10k .ogg + 5.6MB db) (2026-04-13)
 - [x] Build Word Detail screen — full word info, SRS stats, examples (2026-04-10)
 - [x] Build Settings screen — daily goal, notifications, account info (2026-04-10)
 - [x] Commit v0.2.2 bug fixes (2026-04-10)
