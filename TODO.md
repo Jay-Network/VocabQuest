@@ -1,12 +1,12 @@
 # EigoJourney TODO
 
 ## Active Tasks
-(none)
+- [ ] Investigate APK size (verify audio bundling — v0.3.0 blocker)
 
 ## Backlog
-- Build Word Context Generator — Gemini dual-agent feature (TOP PRIORITY when resumed)
-- Build Study Recommendations engine (NEXT PRIORITY when resumed)
-- Cross-app word transfer from EigoSage (awaiting coordination)
+- [backlog] Build Word Context Generator — Gemini dual-agent feature (TOP PRIORITY when resumed)
+- [backlog] Build Study Recommendations engine (NEXT PRIORITY when resumed)
+- [backlog] Cross-app word transfer from EigoSage (awaiting coordination)
 
 ## Completed
 - [x] Build Word Detail screen — full word info, SRS stats, examples (2026-04-10)
