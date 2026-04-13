@@ -70,9 +70,9 @@
 - **Next**: Word Context Generator (Gemini dual-agent), Study Recommendations engine, cross-app word transfer
 - **Blockers**:
   - Feature graphic + screenshots (waiting on jayhub:31 Vision agent)
-  - APK size investigation (3.2MB seems too small — audio may not be bundled)
   - Cross-app word transfer (coordinating device ID with jworks:46)
 - **Resolved**:
+  - ~~APK size investigation~~ — debug APK verified at 84MB with all 10,000 .ogg audio files + 5.6MB SQLite bundled (Apr 13)
   - ~~8 medium-priority bugs~~ — all fixed v0.2.2 (Apr 9)
   - ~~Brand rename~~ — VocabQuest → EigoJourney + glass UI (350bc37, Apr 6)
   - ~~Privacy policy~~ — deployed at jworks-ai.com/apps/eigojourney/privacy (Feb 20)
