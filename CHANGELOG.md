@@ -8,6 +8,10 @@ Single source of truth for version: `VERSION` file at repo root.
 
 ## [Unreleased]
 
+_No unreleased changes._
+
+## v0.3.0 (2026-04-17)
+
 ### Added
 - SettingsScreen with daily goal slider (5-100 cards), study reminder toggle with time picker, subscription info, app version display
 - SettingsViewModel backed by UserRepository (daily goal) and SharedPreferences (notification prefs)
@@ -15,6 +19,14 @@ Single source of truth for version: `VERSION` file at repo root.
 - WordDetailViewModel using SavedStateHandle for wordId extraction, VocabRepository + SrsRepository
 - Settings button added to HomeScreen bottom action row
 - Navigation wired for Settings and WordDetail with real screens (replacing placeholders)
+- Unit test suite: Sm2Algorithm (8), WordRarityCalculator (11), ScoringEngine (13), Domain models (13) — 45 total
+
+### Fixed
+- Deprecated Icons.Filled.Send replaced with Icons.AutoMirrored.Filled.Send
+- expect/actual classes beta warnings silenced via -Xexpect-actual-classes compiler flag
+
+### Verified
+- Debug APK (84MB) confirmed to bundle all 10,000 .ogg audio files + 5.6MB SQLite database
 
 ## v0.2.2 (2026-04-09)
 

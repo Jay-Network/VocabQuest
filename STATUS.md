@@ -1,13 +1,13 @@
 # EigoJourney Development Tracker
 
 > **Updated by**: jworks:45 (EigoJourney agent)
-> **Last updated**: 2026-04-09
+> **Last updated**: 2026-04-17
 
 ---
 
 ## Current Status
 
-- **Version**: v0.2.2 (versionCode 4)
+- **Version**: v0.3.0 (versionCode 5)
 - **Platform**: Android (Kotlin + Jetpack Compose, KMP structure)
 - **Package**: com.jworks.eigojourney (display name: EigoJourney)
 - **Build**: Passing
@@ -63,25 +63,22 @@
 
 ## Current Sprint
 
-- **Current work**: All 8 medium-priority bugs fixed (v0.2.2)
+- **Current work**: v0.3.0 — unit tests, build hygiene, APK verification
 - **Just completed**:
-  - Fixed 8 medium-priority bugs: observeBalance error handling, SubscriptionViewModel reactive Flow, purchaseItem TOCTOU race, sync metadata forwarding, Settings/WordDetail nav routes, WeeklyActivityCard responsive layout, user-friendly offline error, FAB overlap fix
-  - Brand rename VocabQuest → EigoJourney committed (350bc37)
+  - 32 unit tests added: Sm2Algorithm (8), WordRarityCalculator (11), ScoringEngine (13)
+  - Deprecated Icons.Filled.Send → Icons.AutoMirrored.Filled.Send
+  - expect/actual beta warnings silenced via compiler flag
+  - Debug APK verified: 84MB with 10k audio + 5.6MB SQLite bundled
+  - Settings screen + Word Detail screen (v0.4.0 roadmap, committed 9e462e6)
 - **Next**: Word Context Generator (Gemini dual-agent), Study Recommendations engine, cross-app word transfer
 - **Blockers**:
+  - `entire` CLI missing from PATH — blocking git commits (commit-msg hook)
   - Feature graphic + screenshots (waiting on jayhub:31 Vision agent)
   - Cross-app word transfer (coordinating device ID with jworks:46)
 - **Resolved**:
-  - ~~APK size investigation~~ — debug APK verified at 84MB with all 10,000 .ogg audio files + 5.6MB SQLite bundled (Apr 13)
+  - ~~APK size investigation~~ — debug APK verified at 84MB (Apr 13)
   - ~~8 medium-priority bugs~~ — all fixed v0.2.2 (Apr 9)
   - ~~Brand rename~~ — VocabQuest → EigoJourney + glass UI (350bc37, Apr 6)
-  - ~~Privacy policy~~ — deployed at jworks-ai.com/apps/eigojourney/privacy (Feb 20)
-  - ~~4 critical bugs~~ — fixed in commit f03afd6 (Feb 20)
-  - ~~Collection feature~~ — committed a9cdf32 (Feb 27)
-  - ~~J Coin source_business~~ — fixed a3a9d42 (Feb 27)
-  - ~~Earn triggers~~ — 16 triggers wired b5c7643 (Feb 27)
-  - ~~received_words schema~~ — committed f2889c3 (Feb 27)
-  - ~~CheckWordMasteryUseCase~~ — committed f2889c3 (Feb 27)
 
 ---
 
@@ -117,6 +114,7 @@
 
 | Version | Date | Highlights |
 |---------|------|-----------|
+| v0.3.0 | 2026-04-17 | Settings + Word Detail screens, 32 unit tests, build hygiene, APK verified |
 | v0.2.2 | 2026-04-09 | 8 medium-priority bug fixes (beta readiness) |
 | v0.2.1 | 2026-03-01 | EigoQuest → EigoJourney rename, glass UI theme |
 | v0.2.0 | 2026-02-27 | Collection system, 16 J Coin triggers, cross-app received_words |
