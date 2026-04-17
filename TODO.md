@@ -1,4 +1,4 @@
-# EigoJourney TODO
+# TODO — EigoJourney (jworks:45)
 
 ## Active Tasks
 (none)
@@ -9,6 +9,8 @@
 - [backlog] Cross-app word transfer from EigoSage (awaiting coordination)
 
 ## Completed
+- [x] Release v0.3.0 — 45 unit tests, versionCode fix, build hygiene (2026-04-17)
+- [x] Resolve `entire` CLI blocker via stub at ~/.local/bin/entire (2026-04-17)
 - [x] Verify APK bundles audio+db (debug APK = 84MB, 10k .ogg + 5.6MB db) (2026-04-13)
 - [x] Build Word Detail screen — full word info, SRS stats, examples (2026-04-10)
 - [x] Build Settings screen — daily goal, notifications, account info (2026-04-10)
