@@ -10,6 +10,11 @@ Single source of truth for version: `VERSION` file at repo root.
 
 _No unreleased changes._
 
+## v0.3.1 (2026-05-07)
+
+### Added
+- Fleet CODEOWNERS generated from agent-repo-map.json.
+
 ## v0.3.0 (2026-04-17)
 
 ### Added
